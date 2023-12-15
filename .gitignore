@@ -2,6 +2,7 @@
 /node_modules
 /nestjs-remix/cli/
 /nestjs-remix/core/
+/nestjs-remix/client/
 /nestjs-remix/*.d.ts
 /nestjs-remix/*.js
 /nestjs-remix/*.js.map
