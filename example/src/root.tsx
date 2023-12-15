@@ -7,6 +7,7 @@ import {
   Scripts,
   useRouteError,
 } from '@remix-run/react';
+import { useMemo } from 'react';
 
 export const meta: MetaFunction = () => [
   {
@@ -34,7 +35,21 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
-  const error = useRouteError() as Response;
+  const error = useRouteError() as any;
+  const data = useMemo(() => {
+    try {
+      return JSON.parse(error.data) as {
+        msg: string;
+        cause?: string | string[];
+      };
+    } catch {}
+    return void 0;
+  }, [error.data]);
+  const cause = useMemo(() => {
+    if (!data?.cause) return '';
+    if (Array.isArray(data.cause)) return data.cause.join(',');
+    return data.cause;
+  }, [data?.cause]);
   return (
     <html>
       <head>
@@ -46,12 +61,14 @@ export function ErrorBoundary() {
         <section>
           <div>
             <h1>{error.status}</h1>
-            <p>{error.statusText}</p>
+            <h3>{error.statusText}</h3>
+            {!!cause && <p>cause: {cause}</p>}
           </div>
           <Link to="/">
             <button>Back home</button>
           </Link>
         </section>
+        <Scripts />
       </body>
     </html>
   );

@@ -5,6 +5,7 @@ import {
   useFooAction,
   type FooBackend,
 } from './server/foo.server';
+import { usePromiseSubmit } from 'nestjs-remix/client';
 
 export const loader: LoaderFunction = (...args) => {
   return useFooLoader(...args);
@@ -16,6 +17,11 @@ export const action: ActionFunction = (...args) => {
 
 export default function Index() {
   const data = useLoaderData<FooBackend['loader']>();
-  const actionData = useActionData<FooBackend['action']>();
-  return <div></div>;
+  const [submit] = usePromiseSubmit<FooBackend>();
+  return (
+    <div>
+      <h2>{data}</h2>
+      <button onClick={() => submit(null, { method: 'POST' })}>logout</button>
+    </div>
+  );
 }

@@ -1,12 +1,10 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { Body, Injectable, Query, Req } from '@nestjs/common';
 import {
-  Loader,
-  Action,
-  RemixArgs,
-  useAction,
-  useLoader,
-} from 'nestjs-remix/server';
+  redirect,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from '@remix-run/node';
+import { Body, Injectable, Query, Req } from '@nestjs/common';
+import { Loader, Action, RemixArgs, useAction, useLoader } from 'nestjs-remix';
 import { AppService } from '~/modules/app/app.service';
 import { LoginDto } from '~/modules/app/dto/login.dto';
 
@@ -20,13 +18,25 @@ export class IndexBackend {
     @Req() req: Request,
     @Query('name') name?: string,
   ) {
-    return { message: this.appService.getHello(name), a: { b: { c: 1 } } };
+    return { message: this.appService.getHello(name) + ', now: ' + Date.now() };
   }
 
   @Action()
   action(@Body() body: LoginDto) {
-    console.log(body);
-    return {};
+    if (this.appService.login(body)) {
+      return redirect('/foo');
+    }
+    return { msg: 'The username or password is incorrect' };
+  }
+
+  @Action.Patch()
+  patch() {
+    return '[patch]: returned by server side';
+  }
+
+  @Action.Delete()
+  delete() {
+    return '[delete]: returned by server side';
   }
 }
 

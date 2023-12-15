@@ -1,4 +1,13 @@
-export { useLoaderData, useActionData } from "./client";
+export {
+  RemixModule,
+  RemixController,
+  Loader,
+  Action,
+  RemixArgs,
+  startNestRemix,
+  useAction,
+  useLoader,
+} from "./server";
 
 declare global {
   namespace Express {

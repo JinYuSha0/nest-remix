@@ -1,15 +1,18 @@
-import type { TypedResponse } from "@remix-run/node";
+import { TypedResponse } from "@remix-run/node";
 import {
   useLoaderData as useRemixLoaderData,
   useActionData as useRemixActionData,
 } from "@remix-run/react";
+export { usePromiseSubmit } from "./client/usePromiseSubmit";
 
-type AnyFunction = (...args: any) => any;
+export type AnyFunction = (...args: any) => any;
+
+type ExcludeNever<T> = T extends TypedResponse<never> ? never : T;
 
 export type RemixReturnType<T, P extends keyof T> = T[P] extends AnyFunction
   ? Awaited<ReturnType<T[P]>> extends TypedResponse
-    ? Awaited<ReturnType<Awaited<ReturnType<T[P]>>["json"]>>
-    : Awaited<ReturnType<T[P]>>
+    ? ExcludeNever<Awaited<ReturnType<Awaited<ReturnType<T[P]>>["json"]>>>
+    : ExcludeNever<Awaited<ReturnType<T[P]>>>
   : never;
 
 export type LoaderReturnType<
