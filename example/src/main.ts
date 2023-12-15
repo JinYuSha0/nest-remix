@@ -1,7 +1,7 @@
 import { NestApplication } from '@nestjs/core';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { startNestRemix } from 'nestjs-remix';
+import { AppModule } from './modules/app/app.module';
+import { startNestRemix } from 'nestjs-remix/server';
 import { ValidationPipe } from '@nestjs/common';
 import { GlobalExceptionFilter } from './common/global.exeception.filter';
 import { GlobalInterceptor } from './common/global.interceptor';

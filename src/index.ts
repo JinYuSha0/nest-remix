@@ -1,7 +1,4 @@
-export { RemixModule } from "./core/remix.module";
-export { Loader, Action, RemixArgs } from "./core/remix.decorator";
-export { startNestRemix } from "./core/remix.core";
-export { RemixController } from "./core/remix.controller";
+export { useLoaderData, useActionData } from "./client";
 
 declare global {
   namespace Express {

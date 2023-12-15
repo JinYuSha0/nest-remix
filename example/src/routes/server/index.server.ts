@@ -1,8 +1,14 @@
-import { Injectable, Query, Req } from '@nestjs/common';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { Loader, Action, RemixArgs } from 'nestjs-remix';
-import { useAction, useLoader } from 'nestjs-remix/server';
-import { AppService } from '~/app.service';
+import { Body, Injectable, Query, Req } from '@nestjs/common';
+import {
+  Loader,
+  Action,
+  RemixArgs,
+  useAction,
+  useLoader,
+} from 'nestjs-remix/server';
+import { AppService } from '~/modules/app/app.service';
+import { LoginDto } from '~/modules/app/dto/login.dto';
 
 @Injectable()
 export class IndexBackend {
@@ -14,11 +20,14 @@ export class IndexBackend {
     @Req() req: Request,
     @Query('name') name?: string,
   ) {
-    return { message: this.appService.getHello(name) };
+    return { message: this.appService.getHello(name), a: { b: { c: 1 } } };
   }
 
   @Action()
-  action() {}
+  action(@Body() body: LoginDto) {
+    console.log(body);
+    return {};
+  }
 }
 
 export const useIndexLoader = (args: LoaderFunctionArgs) =>
