@@ -1,0 +1,12 @@
+# compiled output
+/node_modules
+/nestjs-remix/cli/
+/nestjs-remix/core/
+/nestjs-remix/*.d.ts
+/nestjs-remix/*.js
+/nestjs-remix/*.js.map
+/nestjs-remix/node_modules
+
+# lock file
+*.lock
+*.lockb

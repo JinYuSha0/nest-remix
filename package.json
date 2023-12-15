@@ -1,0 +1,62 @@
+{
+  "name": "nestjs-remix",
+  "version": "0.3.8",
+  "description": "Using remix in nestjs",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm run pack",
+    "start:dev": "cd example && npm run start:dev",
+    "build": "nest build",
+    "pack": "npm run build",
+    "publish": "npm run pack && cd nestjs-remix && npm publish"
+  },
+  "workspaces": [
+    "example",
+    "nestjs-remix"
+  ],
+  "keywords": [
+    "nestjs",
+    "remix"
+  ],
+  "homepage": "https://github.com/JinYuSha0/nestjs-remix",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JinYuSha0/nestjs-remix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JinYuSha0/nestjs-remix/issues"
+  },
+  "author": "JinYuSha0",
+  "license": "ISC",
+  "sideEffects": false,
+  "dependencies": {
+    "@nestjs/common": "^10.2.8",
+    "@nestjs/core": "^10.2.8",
+    "@nestjs/serve-static": "^4.0.0",
+    "@remix-run/express": "^2.4.0",
+    "@remix-run/node": "^2.4.0",
+    "@remix-run/react": "^2.4.0",
+    "@remix-run/serve": "^2.4.0",
+    "commander": "^11.1.0",
+    "express-serve-static-core": "^0.1.1",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.1.18",
+    "@types/node": "^20.8.4",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^10.2.8",
+    "@nestjs/core": "^10.2.8",
+    "@nestjs/serve-static": "^4.0.0",
+    "@remix-run/express": "^2.4.0",
+    "@remix-run/node": "^2.4.0",
+    "@remix-run/react": "^2.4.0",
+    "@remix-run/serve": "^2.4.0",
+    "express-serve-static-core": "^0.1.1",
+    "reflect-metadata": "^0.1.13"
+  }
+}

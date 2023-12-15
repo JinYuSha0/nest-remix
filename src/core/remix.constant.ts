@@ -1,0 +1,3 @@
+export const COUSTOM_PARAM_TYPE = {
+  REMIX_ARGS: 'REMIX_ARGS',
+};
