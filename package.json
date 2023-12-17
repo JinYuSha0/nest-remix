@@ -1,6 +1,6 @@
 {
   "name": "nestjs-remix",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Using remix in nestjs",
   "main": "index.js",
   "types": "index.d.ts",

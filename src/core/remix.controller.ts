@@ -49,9 +49,8 @@ export class RemixController {
         next,
       };
     };
-
     return createRequestHandler({
-      build: await import(this.remixConfig.browserBuildDir),
+      build: require(this.remixConfig.browserBuildDir),
       getLoadContext,
     })(req, res, next);
   }
