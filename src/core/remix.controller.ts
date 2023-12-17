@@ -1,6 +1,7 @@
 import type { AppLoadContext } from "@remix-run/server-runtime/dist/data.d";
 import type { GetLoadContextFunction } from "@remix-run/express";
 import type { NextFunction } from "express-serve-static-core";
+import path from "path";
 import { All, Controller, Next, Req, Res } from "@nestjs/common";
 import { ModuleRef } from "@nestjs/core/injector/module-ref";
 import { createRequestHandler } from "@remix-run/express";
@@ -49,8 +50,13 @@ export class RemixController {
         next,
       };
     };
+    const serverBuildFile = path.join(
+      this.remixConfig.browserBuildDir,
+      "index.js"
+    );
     return createRequestHandler({
-      build: require(this.remixConfig.browserBuildDir),
+      // https://github.com/microsoft/TypeScript/issues/43329
+      build: await Function(`return import("${serverBuildFile}")`)(),
       getLoadContext,
     })(req, res, next);
   }
