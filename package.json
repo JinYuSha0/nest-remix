@@ -1,6 +1,6 @@
 {
   "name": "nestjs-remix",
-  "version": "0.3.8",
+  "version": "0.4.0",
   "description": "Using remix in nestjs",
   "main": "index.js",
   "types": "index.d.ts",
@@ -35,6 +35,7 @@
     "@nestjs/common": "^10.2.8",
     "@nestjs/core": "^10.2.8",
     "@nestjs/serve-static": "^4.0.0",
+    "@nestjs/testing": "^10.2.10",
     "@remix-run/express": "^2.4.0",
     "@remix-run/node": "^2.4.0",
     "@remix-run/react": "^2.4.0",
@@ -46,6 +47,8 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^10.1.18",
+    "@remix-run/testing": "^2.4.0",
+    "@testing-library/react": "^14.1.2",
     "@types/node": "^20.8.4",
     "typescript": "^5.2.2"
   },

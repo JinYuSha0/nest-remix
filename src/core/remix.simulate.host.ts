@@ -1,4 +1,3 @@
-import { json as remixJson, redirect as remixRedirect } from "@remix-run/node";
 import type { ArgumentsHost, ContextType } from "@nestjs/common";
 import type {
   RpcArgumentsHost,
@@ -7,8 +6,8 @@ import type {
 } from "@nestjs/common/interfaces";
 import type { Type } from "@nestjs/common/interfaces";
 import type { HttpAdapterHost } from "@nestjs/core/helpers/http-adapter-host";
-
-const noop = () => {};
+import { json as remixJson, redirect as remixRedirect } from "@remix-run/node";
+import { noop } from "client/helper";
 
 class RemixSimulateResponse {
   private _redirect?: string;

@@ -1,5 +1,5 @@
 import type { NestApplication } from "@nestjs/core";
-import type { HttpServer, CanActivate } from "@nestjs/common";
+import type { HttpServer, CanActivate, ArgumentMetadata } from "@nestjs/common";
 import type { ApplicationConfig } from "@nestjs/core/application-config";
 import type { NextFunction } from "express-serve-static-core";
 import type { RemixLoadContext } from "./remix.controller";
@@ -19,6 +19,7 @@ import type { ParamProperties } from "@nestjs/core/helpers/context-utils";
 import type { HandlerMetadata } from "@nestjs/core/helpers/handler-metadata-storage";
 import type { RouterProxyCallback } from "@nestjs/core/router/router-proxy";
 import type { ExceptionsHandler } from "@nestjs/core//exceptions/exceptions-handler";
+import type { Controller } from "@nestjs/common/interfaces";
 import { lastValueFrom, isObservable } from "rxjs";
 import {
   HEADERS_METADATA,
@@ -177,9 +178,15 @@ class RemixExecutionContext {
       ) as R;
   }
 
-  private exchangeKeysForValues<TMetadata = any>(
+  private exchangeKeysForValues(
     keys: string[],
-    metadata: Record<number, RouteParamMetadata>,
+    metadata: Record<
+      string,
+      RouteParamMetadata & {
+        pipes: (PipeTransform<any, any> | Type<PipeTransform<any, any>>)[];
+        factory: (...args: unknown[]) => void;
+      }
+    >,
     contextFactory?: (args: unknown[]) => ExecutionContextHost
   ): ParamProperties[] {
     return keys.map((key) => {
@@ -221,26 +228,18 @@ class RemixExecutionContext {
 
   private async getParamValue<T>(
     value: T,
-    {
-      metatype,
-      type,
-      data,
-    }: { metatype: unknown; type: RouteParamtypes; data: unknown },
+    { metatype, type, data }: ArgumentMetadata,
     pipes: PipeTransform[]
   ): Promise<unknown> {
     if (pipes?.length) {
-      return this.pipesConsumer.apply(
-        value,
-        { metatype, type, data } as any,
-        pipes
-      );
+      return this.pipesConsumer.apply(value, { metatype, type, data }, pipes);
     }
     return value;
   }
 
   private createPipesFn(
     pipes: PipeTransform[],
-    paramsOptions: (ParamProperties & { metatype?: any })[],
+    paramsOptions: (ParamProperties & { metatype?: Type<any> })[],
     dataFuncArgs: LoaderFunctionArgs
   ) {
     const pipesFn = async <TRequest, TResponse>(
@@ -250,7 +249,7 @@ class RemixExecutionContext {
       next: Function
     ) => {
       const resolveParamValue = async (
-        param: ParamProperties & { metatype?: any }
+        param: ParamProperties & { metatype?: Type<any> }
       ) => {
         const {
           index,
@@ -267,7 +266,7 @@ class RemixExecutionContext {
           args[index] = this.isPipeable(type)
             ? await this.getParamValue(
                 value,
-                { metatype, type, data } as any,
+                { metatype, type, data: data as string },
                 pipes.concat(paramPipes)
               )
             : value;
@@ -292,7 +291,7 @@ class RemixExecutionContext {
 
   private createGuardsFn(
     guards: CanActivate[],
-    instance: any,
+    instance: Controller,
     callback: (...args: any[]) => any,
     contextType?: "http"
   ): (args: any[]) => Promise<void> | null {
@@ -312,7 +311,7 @@ class RemixExecutionContext {
   }
 
   private getMetadata(
-    instance: any,
+    instance: Controller,
     callback: (...args: any[]) => any,
     methodName: string,
     moduleKey: string,
@@ -366,7 +365,7 @@ class RemixExecutionContext {
     return handlerMetadata;
   }
 
-  private transformToResult(resultOrDeferred: any) {
+  private transformToResult(resultOrDeferred: unknown) {
     if (isObservable(resultOrDeferred)) {
       return lastValueFrom(resultOrDeferred);
     }
@@ -375,7 +374,7 @@ class RemixExecutionContext {
 
   public async create(
     property: RemixProperty,
-    instance: any,
+    instance: Controller,
     methodName: string,
     requestMethod: RequestMethod,
     context: RemixLoadContext,
@@ -475,7 +474,7 @@ class RemixExceptionsFilter {
   }
 
   public create(
-    instance: any,
+    instance: Controller,
     callback: RouterProxyCallback,
     moduleKey: string,
     contextId = STATIC_CONTEXT,

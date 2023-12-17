@@ -5,7 +5,7 @@ import { Expose } from 'class-transformer';
 export class LoginDto {
   @Expose()
   @ApiProperty({
-    description: '用户名',
+    description: 'username',
     required: true,
   })
   @IsString()
@@ -15,7 +15,7 @@ export class LoginDto {
 
   @Expose()
   @ApiProperty({
-    description: '密码',
+    description: 'password',
     required: true,
   })
   @IsString()

@@ -1,5 +1,5 @@
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
-import { Form, useFetcher, useRevalidator } from '@remix-run/react';
+import { Form, useRevalidator } from '@remix-run/react';
 import {
   type IndexBackend,
   useIndexLoader,
