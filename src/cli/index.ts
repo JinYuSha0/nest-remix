@@ -1,7 +1,7 @@
-import { program } from "commander";
+import { Commander } from "commander";
 import path from "path";
 import fs from "fs";
-
+const program = new Commander();
 type Options = {
   file?: string;
   watch?: boolean;
