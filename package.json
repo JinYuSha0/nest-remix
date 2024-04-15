@@ -1,6 +1,6 @@
 {
   "name": "nestjs-remix",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Using remix in nestjs",
   "main": "index.js",
   "types": "index.d.ts",
@@ -40,7 +40,7 @@
     "@remix-run/node": "^2.4.0",
     "@remix-run/react": "^2.4.0",
     "@remix-run/serve": "^2.4.0",
-    "commander": "^11.1.0",
+    "commander": "^12.0.0",
     "express-serve-static-core": "^0.1.1",
     "object-to-formdata": "^4.5.1",
     "reflect-metadata": "^0.1.13"
