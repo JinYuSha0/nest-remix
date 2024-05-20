@@ -15,7 +15,7 @@ function bootstrap() {
   program
     .usage("<command> [options]")
     .option(
-      "-f --file",
+      "-f --file <path>",
       "Watch remix backend relative file root directory (default: ./src/routes/server)"
     )
     .option("-w --watch", "Watch remix backend file changes")
