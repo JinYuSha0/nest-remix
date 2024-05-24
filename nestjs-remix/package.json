@@ -8,13 +8,13 @@
     "nestjs",
     "remix"
   ],
-  "homepage": "https://github.com/JinYuSha0/nestjs-remix",
+  "homepage": "https://github.com/JinYuSha0/nest-remix",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JinYuSha0/nestjs-remix.git"
+    "url": "https://github.com/JinYuSha0/nest-remix.git"
   },
   "bugs": {
-    "url": "https://github.com/JinYuSha0/nestjs-remix/issues"
+    "url": "https://github.com/JinYuSha0/nest-remix/issues"
   },
   "author": "JinYuSha0",
   "license": "ISC",
