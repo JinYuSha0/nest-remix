@@ -29,6 +29,6 @@ jobs:
         run: npm run build
 
       - name: Publish to Github packages
-        run: cd nestjs-remix && npm publish --provenance --access public
+        run: cd nestjs-remix && npm publish --provenance --access public --registry=https://npm.pkg.github.com/
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
