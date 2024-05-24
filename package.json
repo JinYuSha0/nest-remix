@@ -11,7 +11,7 @@
     "start:dev": "cd example && npm run start:dev",
     "build": "nest build",
     "pack": "npm run build",
-    "publish": "npm run pack && cd nestjs-remix && npm publish --registry=https://npm.pkg.github.com/ --provenance --access public"
+    "publish": "npm run pack && cd nestjs-remix && npm publish --provenance --access public"
   },
   "workspaces": [
     "example",
