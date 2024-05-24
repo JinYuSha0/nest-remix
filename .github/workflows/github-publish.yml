@@ -1,0 +1,33 @@
+name: Publish github package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Authenticate with the GitHub Package Registry
+        run: echo "//npm.pkg.github.com:_authToken=${GITHUB_TOKEN}" > ~/.npmrc
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to Github packages
+        run: npm run publish --registry=https://npm.pkg.github.com/

@@ -31,6 +31,12 @@
   },
   "author": "JinYuSha0",
   "license": "ISC",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "githubPackages": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "dependencies": {
     "@nestjs/common": "^10.3.8",
     "@nestjs/core": "^10.3.8",
