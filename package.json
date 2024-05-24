@@ -1,16 +1,17 @@
 {
   "name": "nestjs-remix",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Using remix in nestjs",
   "main": "index.js",
   "types": "index.d.ts",
   "private": true,
+  "sideEffects": false,
   "scripts": {
     "postinstall": "npm run pack",
     "start:dev": "cd example && npm run start:dev",
     "build": "nest build",
     "pack": "npm run build",
-    "publish": "npm run pack && cd nestjs-remix && npm publish"
+    "publish": "npm run pack && cd nestjs-remix && npm publish --provenance --access public"
   },
   "workspaces": [
     "example",
@@ -20,17 +21,16 @@
     "nestjs",
     "remix"
   ],
-  "homepage": "https://github.com/JinYuSha0/nestjs-remix",
+  "homepage": "https://github.com/JinYuSha0/nest-remix",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JinYuSha0/nestjs-remix.git"
+    "url": "https://github.com/JinYuSha0/nest-remix.git"
   },
   "bugs": {
-    "url": "https://github.com/JinYuSha0/nestjs-remix/issues"
+    "url": "https://github.com/JinYuSha0/nest-remix/issues"
   },
   "author": "JinYuSha0",
   "license": "ISC",
-  "sideEffects": false,
   "dependencies": {
     "@nestjs/common": "^10.3.8",
     "@nestjs/core": "^10.3.8",
