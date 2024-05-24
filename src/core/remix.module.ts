@@ -14,7 +14,7 @@ export const RemixModule = (
 ) => {
   const providers = getModuleProviders();
   const controllers = metadata.controllers ?? [];
-  if (!metadata.useCoustomController) {
+  if (!metadata.useCustomController) {
     controllers.push(RemixController);
   }
   return Module(

@@ -1,12 +1,9 @@
 {
   "name": "nestjs-remix",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Using remix in nestjs",
   "main": "index.js",
   "types": "index.d.ts",
-  "bin": {
-    "nestjs-remix": "bin.js"
-  },
   "keywords": [
     "nestjs",
     "remix"
@@ -23,30 +20,30 @@
   "license": "ISC",
   "sideEffects": false,
   "dependencies": {
-    "@nestjs/common": "^10.2.8",
-    "@nestjs/core": "^10.2.8",
-    "@nestjs/serve-static": "^4.0.0",
-    "@remix-run/express": "^2.0.1",
-    "@remix-run/node": "^2.0.1",
-    "@remix-run/react": "^2.0.1",
-    "@remix-run/serve": "^2.0.1",
+    "@nestjs/common": "^10.3.8",
+    "@nestjs/core": "^10.3.8",
+    "@nestjs/serve-static": "^4.0.2",
+    "@remix-run/express": "^2.9.2",
+    "@remix-run/node": "^2.9.2",
+    "@remix-run/react": "^2.9.2",
+    "@remix-run/serve": "^2.9.2",
     "express-serve-static-core": "^0.1.1",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
-    "@nestjs/cli": "^10.1.18",
-    "@types/node": "^20.8.4",
+    "@nestjs/cli": "^10.3.2",
+    "@types/node": "^20.12.12",
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "@nestjs/common": "^10.2.8",
-    "@nestjs/core": "^10.2.8",
-    "@nestjs/serve-static": "^4.0.0",
-    "@remix-run/express": "^2.0.1",
-    "@remix-run/node": "^2.0.1",
-    "@remix-run/react": "^2.0.1",
-    "@remix-run/serve": "^2.0.1",
+    "@nestjs/common": "^10.3.8",
+    "@nestjs/core": "^10.3.8",
+    "@nestjs/serve-static": "^4.0.2",
+    "@remix-run/express": "^2.9.2",
+    "@remix-run/node": "^2.9.2",
+    "@remix-run/react": "^2.9.2",
+    "@remix-run/serve": "^2.9.2",
     "express-serve-static-core": "^0.1.1",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.2.2"
   }
 }

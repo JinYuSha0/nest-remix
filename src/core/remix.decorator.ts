@@ -7,7 +7,7 @@ import {
   setRemixTypeDescriptor,
 } from "./remix.core";
 import { isConstructor } from "./remix.helper";
-import { COUSTOM_PARAM_TYPE } from "./remix.constant";
+import { CUSTOM_PARAM_TYPE } from "./remix.constant";
 
 function createRouteParamDecorator(paramtype: string) {
   return (data?: ParamData): ParameterDecorator =>
@@ -30,7 +30,7 @@ function createRouteParamDecorator(paramtype: string) {
 }
 
 export const RemixArgs = createRouteParamDecorator(
-  COUSTOM_PARAM_TYPE.REMIX_ARGS
+  CUSTOM_PARAM_TYPE.REMIX_ARGS
 );
 
 function Decorator(property: RemixProperty) {

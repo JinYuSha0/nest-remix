@@ -1,4 +1,3 @@
-import '../../routes/server/index';
 import * as path from 'path';
 import { RemixModule } from 'nestjs-remix';
 import { AppController } from './app.controller';

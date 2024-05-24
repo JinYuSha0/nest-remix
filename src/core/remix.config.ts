@@ -12,7 +12,7 @@ export const buildRemixConfigProvider = (config: RemixConfig) => {
     useValue: {
       publicDir: config.publicDir,
       browserBuildDir: config.browserBuildDir,
-      useCoustomController: config.useCoustomController ?? "RemixController",
+      useCustomController: config.useCustomController ?? "RemixController",
       isStaticAsset: config.isStaticAsset,
     } as RemixConfig,
   } as ValueProvider;
@@ -22,6 +22,6 @@ export type RemixConfig = {
   publicDir: string;
   browserBuildDir: string;
   staticDirs?: ServeStaticModuleOptions[];
-  useCoustomController?: string;
+  useCustomController?: string;
   isStaticAsset?: (request: Request) => boolean;
 };

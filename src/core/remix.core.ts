@@ -47,20 +47,35 @@ import {
   RouterResponseController,
 } from "@nestjs/core/router/router-response-controller";
 import { RouteParamtypes } from "@nestjs/common/enums/route-paramtypes.enum";
-import { COUSTOM_PARAM_TYPE } from "./remix.constant";
+import { CUSTOM_PARAM_TYPE } from "./remix.constant";
 import { HandlerMetadataStorage } from "@nestjs/core/helpers/handler-metadata-storage";
 import { STATIC_CONTEXT } from "@nestjs/core/injector/constants";
 import { ExecutionContextHost } from "@nestjs/core/helpers/execution-context-host";
 import { RemixSimulateHost } from "./remix.simulate.host";
 import { setExpressApp } from "./express.utils";
+import { dynamicImportRemixBackend } from "./remix.dynamicImport";
 
 const RemixProviderMap: Map<string, ClassProvider> = new Map();
 
+const PROVIDER_PREFIX = "Remix_";
+
 const getProviderName = (type: Type | string) =>
-  typeof type === "string" ? `Remix_${type}` : `Remix_${type.name}`;
+  typeof type === "string"
+    ? type.startsWith(PROVIDER_PREFIX)
+      ? type
+      : `${PROVIDER_PREFIX}${type}`
+    : type.name.startsWith(PROVIDER_PREFIX)
+      ? type.name
+      : `${PROVIDER_PREFIX}${type.name}`;
 
 export const markTypeAsProvider = (type: Type) => {
-  const name = getProviderName(type);
+  if (!type.name.startsWith(PROVIDER_PREFIX)) {
+    Object.defineProperty(type, "name", {
+      configurable: true,
+      value: getProviderName(type),
+    });
+  }
+  const name = type.name;
   if (RemixProviderMap.has(name)) return;
   RemixProviderMap.set(name, {
     provide: name,
@@ -68,8 +83,11 @@ export const markTypeAsProvider = (type: Type) => {
   });
 };
 
-export const getModuleProviders = () =>
-  Array.from(RemixProviderMap.entries()).map(([_, provider]) => provider);
+export const getModuleProviders = () => {
+  return Array.from(RemixProviderMap.entries()).map(
+    ([_, provider]) => provider
+  );
+};
 
 export enum RemixProperty {
   Loader = "Loader",
@@ -203,7 +221,7 @@ class RemixExecutionContext {
         return { index, extractValue: customExtractValue, type, data, pipes };
       }
       const numericType = isNaN(+type)
-        ? COUSTOM_PARAM_TYPE.REMIX_ARGS
+        ? CUSTOM_PARAM_TYPE.REMIX_ARGS
         : Number(type);
       const extractValue = (req, res, next) =>
         this.routeParamsFactory.exchangeKeyForValue(numericType, data, {
@@ -259,7 +277,7 @@ class RemixExecutionContext {
           metatype,
           pipes: paramPipes,
         } = param;
-        if (type === COUSTOM_PARAM_TYPE.REMIX_ARGS) {
+        if (type === CUSTOM_PARAM_TYPE.REMIX_ARGS) {
           args[index] = dataFuncArgs;
         } else {
           const value = extractValue(req, res, next);
@@ -532,7 +550,21 @@ const useDecorator = (
   }
   return async (args: LoaderFunctionArgs) => {
     const { moduleRef, req, res, next } = args.context as RemixLoadContext;
-    const instance = moduleRef.get(getProviderName(typeName!));
+    const providerName = getProviderName(typeName);
+    let provider = RemixProviderMap.get(providerName);
+    if (!provider) {
+      // reload
+      dynamicImportRemixBackend();
+      provider = RemixProviderMap.get(providerName);
+    }
+    let instance;
+    try {
+      instance = moduleRef.get(providerName);
+    } catch (err) {}
+    if (!instance) {
+      const { useClass } = provider;
+      instance = await moduleRef.create(useClass);
+    }
     const [requestProperty, requestMethod] = getPropertyNameByRequest(
       args.context.req as Request
     );
