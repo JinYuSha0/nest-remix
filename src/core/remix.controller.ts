@@ -7,6 +7,7 @@ import { ModuleRef } from "@nestjs/core/injector/module-ref";
 import { createRequestHandler } from "@remix-run/express";
 import { InjectRemixConfig, RemixConfig } from "./remix.config";
 import { hasAnotherMatch } from "./express.utils";
+import { dynamicImport } from "./remix.helper";
 
 export interface RemixLoadContext extends AppLoadContext {
   moduleKey: string;
@@ -56,7 +57,7 @@ export class RemixController {
     );
     return createRequestHandler({
       // https://github.com/microsoft/TypeScript/issues/43329
-      build: await Function(`return import("${serverBuildFile}")`)(),
+      build: await dynamicImport(serverBuildFile),
       getLoadContext,
     })(req, res, next);
   }
