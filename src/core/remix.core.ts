@@ -53,7 +53,6 @@ import { STATIC_CONTEXT } from "@nestjs/core/injector/constants";
 import { ExecutionContextHost } from "@nestjs/core/helpers/execution-context-host";
 import { RemixSimulateHost } from "./remix.simulate.host";
 import { setExpressApp } from "./express.utils";
-import { dynamicImportRemixBackend } from "./remix.dynamicImport";
 
 const RemixProviderMap: Map<string, ClassProvider> = new Map();
 
@@ -582,8 +581,7 @@ const useDecorator = (
   };
 };
 
-export const startNestRemix = (app: NestApplication, remixServerDirPath?: string) => {
-  dynamicImportRemixBackend(remixServerDirPath);
+export const startNestRemix = (app: NestApplication) => {
   const container = (app as any).container as NestContainer;
   const config = (app as any).config as ApplicationConfig;
   const httpAdapterRef = container.getHttpAdapterRef();

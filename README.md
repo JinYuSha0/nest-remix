@@ -102,8 +102,9 @@ export class AppModule {}
 
 |  Property   | Description  | Type | Required |
 |  ----  |  ----  |  ----  |  ----  |
-| publicDir | Nestjs build output directory | string | true |
-| browserBuildDir | Remix build output directory | string | true |
+| publicDir | Remix frontend build output directory | string | true |
+| browserBuildDir | Remix entry build output directory | string | true |
+| remixServerDir | Remix backend build output directory | string | true |
 | staticDirs | Multiple static file directory configurations | ServeStaticModuleOptions[] | false |
 | useCoustomController | Use a custom root path controller | boolean | false |
 | isStaticAsset | Determine whether it is a static file | (request: Request) => boolean | false

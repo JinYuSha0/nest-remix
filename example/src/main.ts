@@ -14,6 +14,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new GlobalInterceptor());
   await app.listen(3000);
   // Must be after the listen method
-  startNestRemix(app, path.join(process.cwd(), "./dist/routes/server"));
+  startNestRemix(app);
 }
 bootstrap();
