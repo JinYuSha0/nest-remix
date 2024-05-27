@@ -132,10 +132,10 @@ bootstrap();
     "start": "nest start",
     "start:dev": "concurrently \"npm run start:dev:nest\" \"npm run start:dev:remix\" -n \"NEST,REMIX\"",
     "start:prod": "node dist/main",
-    "build:nest": "rimraf dist; nest build -p tsconfig.nest.json",
-    "build:remix": "rimraf build; nestjs-remix; remix build",
-    "start:dev:nest": "rimraf dist; nest start --watch -p tsconfig.nest.json",
-    "start:dev:remix": "rimraf build; concurrently \"remix watch\" \"nestjs-remix -w\""
+    "build:nest": "rimraf dist && nest build -p tsconfig.nest.json",
+    "build:remix": "rimraf build && nestjs-remix; remix build",
+    "start:dev:nest": "rimraf dist && nest start --watch -p tsconfig.nest.json",
+    "start:dev:remix": "rimraf build && concurrently \"remix watch\" \"nestjs-remix -w\""
   }
 ```
 
