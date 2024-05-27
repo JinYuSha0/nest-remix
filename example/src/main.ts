@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { NestApplication } from '@nestjs/core';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app/app.module';
@@ -13,6 +14,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new GlobalInterceptor());
   await app.listen(3000);
   // Must be after the listen method
-  startNestRemix(app);
+  startNestRemix(app, path.join(process.cwd(), "./dist/routes/server"));
 }
 bootstrap();

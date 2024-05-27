@@ -551,20 +551,7 @@ const useDecorator = (
   return async (args: LoaderFunctionArgs) => {
     const { moduleRef, req, res, next } = args.context as RemixLoadContext;
     const providerName = getProviderName(typeName);
-    let provider = RemixProviderMap.get(providerName);
-    if (!provider) {
-      // reload
-      dynamicImportRemixBackend();
-      provider = RemixProviderMap.get(providerName);
-    }
-    let instance;
-    try {
-      instance = moduleRef.get(providerName);
-    } catch (err) {}
-    if (!instance) {
-      const { useClass } = provider;
-      instance = await moduleRef.create(useClass);
-    }
+    const instance = moduleRef.get(providerName);
     const [requestProperty, requestMethod] = getPropertyNameByRequest(
       args.context.req as Request
     );
@@ -595,7 +582,8 @@ const useDecorator = (
   };
 };
 
-export const startNestRemix = (app: NestApplication) => {
+export const startNestRemix = (app: NestApplication, remixServerDirPath?: string) => {
+  dynamicImportRemixBackend(remixServerDirPath);
   const container = (app as any).container as NestContainer;
   const config = (app as any).config as ApplicationConfig;
   const httpAdapterRef = container.getHttpAdapterRef();

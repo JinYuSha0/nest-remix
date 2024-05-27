@@ -9,9 +9,6 @@ export {
   useLoader,
 } from "./server";
 
-import { dynamicImportRemixBackend } from "./core/remix.dynamicImport";
-dynamicImportRemixBackend();
-
 declare global {
   namespace Express {
     interface Request {

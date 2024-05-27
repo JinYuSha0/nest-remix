@@ -4,10 +4,9 @@ import * as path from "path";
 // Dynamically import all remix backend code under the directory (default: './dist/routes/server')
 // to collect the providers required by nestjs, You can configure the environment variable
 // "REMIX_SERVER_RELATIVE_PATH" to modify the default folder path
-export const dynamicImportRemixBackend = () => {
-  const directoryPath = path.join(
-    process.cwd(),
-    process.env.REMIX_SERVER_RELATIVE_PATH ?? "./dist/routes/server"
+export const dynamicImportRemixBackend = (remixServerDirPath?: string) => {
+  const directoryPath = remixServerDirPath ?? path.join(
+    process.cwd(), "./dist/routes/server"
   );
 
   const files = fs.readdirSync(directoryPath);
