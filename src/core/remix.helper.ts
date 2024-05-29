@@ -13,16 +13,11 @@ export const isConstructor = (type: any): type is Type => {
 
 export const dynamicImport = async (filepath: string) => {
   try {
+    return await Function(`return import("${filepath}")`)();
+  } catch (err) {}
+
+  try {
     return require(filepath);
   } catch (err) {}
-  
-  try {
-    return await import(filepath);
-  } catch (err) {}
-
-  try {
-    return await Function(`return import("${filepath}")`)() 
-  } catch (err) {}
-
   return null;
-}
+};
