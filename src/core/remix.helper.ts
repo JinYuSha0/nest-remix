@@ -1,4 +1,6 @@
 import type { Type } from "@nestjs/common";
+import awaitImport from "await-import-dont-compile";
+import { pathToFileURL } from "url";
 
 export const isConstructor = (type: any): type is Type => {
   try {
@@ -12,12 +14,5 @@ export const isConstructor = (type: any): type is Type => {
 };
 
 export const dynamicImport = async (filepath: string) => {
-  try {
-    return await Function(`return import("${filepath}")`)();
-  } catch (err) {}
-
-  try {
-    return require(filepath);
-  } catch (err) {}
-  return null;
+  return await awaitImport(pathToFileURL(filepath).href);
 };
