@@ -22,6 +22,7 @@ import type { ExceptionsHandler } from "@nestjs/core//exceptions/exceptions-hand
 import type { Controller } from "@nestjs/common/interfaces";
 import { lastValueFrom, isObservable } from "rxjs";
 import {
+  CUSTOM_ROUTE_ARGS_METADATA,
   HEADERS_METADATA,
   HTTP_CODE_METADATA,
   ROUTE_ARGS_METADATA,
@@ -210,7 +211,8 @@ class RemixExecutionContext {
       const { index, data, pipes: pipesCollection } = metadata[key];
       const pipes = this.createConcreteContext(pipesCollection);
       const type = this.contextUtils.mapParamType(key);
-      if (key.includes(ROUTE_ARGS_METADATA)) {
+
+      if (key.includes(CUSTOM_ROUTE_ARGS_METADATA)) {
         const { factory } = metadata[key];
         const customExtractValue = this.contextUtils.getCustomFactory(
           factory,

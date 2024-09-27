@@ -7,6 +7,7 @@ import { Body, Injectable, Query, Req } from '@nestjs/common';
 import { Loader, Action, RemixArgs, useAction, useLoader } from 'nestjs-remix';
 import { AppService } from '~/modules/app/app.service';
 import { LoginDto } from '~/modules/app/dto/login.dto';
+import { Test } from '~/common/test.decorator';
 
 @Injectable()
 export class IndexBackend {
@@ -16,8 +17,10 @@ export class IndexBackend {
   loader(
     @RemixArgs() args: LoaderFunctionArgs,
     @Req() req: Request,
+    @Test() test: string,
     @Query('name') name?: string,
   ) {
+    console.log(test);
     return { message: this.appService.getHello(name) + ', now: ' + Date.now() };
   }
 
