@@ -551,6 +551,7 @@ const useDecorator = (
   }
   return async (args: LoaderFunctionArgs) => {
     const { moduleRef, req, res, next } = args.context as RemixLoadContext;
+    req.remixParams = args.params;
     const providerName = getProviderName(typeName);
     const instance = moduleRef.get(providerName);
     const [requestProperty, requestMethod] = getPropertyNameByRequest(

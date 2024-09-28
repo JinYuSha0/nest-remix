@@ -1,3 +1,5 @@
+import type { Params } from "@remix-run/react";
+
 export {
   RemixModule,
   RemixController,
@@ -13,6 +15,7 @@ declare global {
   namespace Express {
     interface Request {
       handleByRemix?: boolean;
+      remixParams?: Params;
     }
   }
 
