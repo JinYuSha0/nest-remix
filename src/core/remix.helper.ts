@@ -14,5 +14,10 @@ export const isConstructor = (type: any): type is Type => {
 };
 
 export const dynamicImport = async (filepath: string) => {
-  return await awaitImport(pathToFileURL(filepath).href);
+  let href = pathToFileURL(filepath).href;
+  // dynamic import have a cache, will cause the remix page not to be updated
+  if (process.env.NODE_ENV !== "production") {
+    href += `?d=${Date.now()}`;
+  }
+  return await awaitImport(href);
 };
