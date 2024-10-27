@@ -5,16 +5,16 @@
 ## How to use
 
 ### Nestjs side
+
 ```typescript
-import { Loader, Action, useAction, useLoader } from 'nestjs-remix';
+import { Loader, Action, useAction, useLoader } from "nestjs-remix";
 
 @Injectable()
 export class IndexBackend {
   constructor(private readonly appService: AppService) {}
 
   @Loader()
-  loader(@Req() req: Request, @Query('name') name?: string,
-  ) {
+  loader(@Req() req: Request, @Query("name") name?: string) {
     return this.appService.getHello();
   }
 
@@ -25,12 +25,12 @@ export class IndexBackend {
 
   @Action.Patch()
   patch() {
-    return '[patch]: returned by server side';
+    return "[patch]: returned by server side";
   }
 
   @Action.Delete()
   delete() {
-    return '[delete]: returned by server side';
+    return "[delete]: returned by server side";
   }
 }
 
@@ -68,7 +68,14 @@ export default function Index() {
   return <div>{data.message}</div>
 }
 ```
+
 <b>For more detailed usage, please refer to Example</b>
+
+## Quick Start
+
+```
+git pull https://github.com/JinYuSha0/nestjs-remix-template.git
+```
 
 ## Running the example
 
@@ -82,13 +89,13 @@ yarn run start:dev
 ### 1.Install
 
 ```
-yarn install nestjs-remix
+yarn add nestjs-remix
 ```
 
 ### 2.Replace Root Module
 
 ```typescript
-import { RemixModule } from 'nestjs-remix';
+import { RemixModule } from "nestjs-remix";
 
 @RemixModule({
   publicDir: path.join(process.cwd(), "public"),
@@ -100,21 +107,21 @@ import { RemixModule } from 'nestjs-remix';
 export class AppModule {}
 ```
 
-|  Property   | Description  | Type | Required |
-|  ----  |  ----  |  ----  |  ----  |
-| publicDir | Remix frontend build output directory | string | true |
-| browserBuildDir | Remix entry build output directory | string | true |
-| remixServerDir | Remix backend build output directory | string | true |
-| staticDirs | Multiple static file directory configurations | ServeStaticModuleOptions[] | false |
-| useCoustomController | Use a custom root path controller | boolean | false |
-| isStaticAsset | Determine whether it is a static file | (request: Request) => boolean | false
+| Property             | Description                                   | Type                          | Required |
+| -------------------- | --------------------------------------------- | ----------------------------- | -------- |
+| publicDir            | Remix frontend build output directory         | string                        | true     |
+| browserBuildDir      | Remix entry build output directory            | string                        | true     |
+| remixServerDir       | Remix backend build output directory          | string                        | true     |
+| staticDirs           | Multiple static file directory configurations | ServeStaticModuleOptions[]    | false    |
+| useCoustomController | Use a custom root path controller             | boolean                       | false    |
+| isStaticAsset        | Determine whether it is a static file         | (request: Request) => boolean | false    |
 
 <b>Except for these new properties, it is no different from the Nestjs module.</b>
 
 ### 3. Start nestjs-remix
 
 ```typescript
-import { startNestRemix } from 'nestjs-remix';
+import { startNestRemix } from "nestjs-remix";
 
 async function bootstrap() {
   // ...
@@ -130,16 +137,14 @@ bootstrap();
 ```json
 "scripts": {
     "build": "concurrently \"npm run build:nest\" \"npm run build:remix\" -n \"NEST,REMIX\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "concurrently \"npm run start:dev:nest\" \"npm run start:dev:remix\" -n \"NEST,REMIX\"",
+    "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "build:nest": "rimraf dist && nest build -p tsconfig.nest.json",
-    "build:remix": "rimraf build && nestjs-remix; remix build",
+    "build:remix": "rimraf build && remix build",
     "start:dev:nest": "rimraf dist && nest start --watch -p tsconfig.nest.json",
-    "start:dev:remix": "rimraf build && concurrently \"remix watch\" \"nestjs-remix -w\""
+    "start:dev:remix": "rimraf build && concurrently \"remix watch\""
   }
 ```
-
-
-
-
