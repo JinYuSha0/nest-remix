@@ -74,7 +74,7 @@ export default function Index() {
 ## Quick Start
 
 ```
-git pull https://github.com/JinYuSha0/nestjs-remix-template.git
+git clone https://github.com/JinYuSha0/nestjs-remix-template.git
 ```
 
 ## Running the example
