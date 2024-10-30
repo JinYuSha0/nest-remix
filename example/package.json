@@ -9,8 +9,7 @@
     "build": "concurrently \"npm run build:nest\" \"npm run build:remix\" -n \"NEST,REMIX\"",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "concurrently \"npm run start:dev:nest\" \"npm run start:dev:remix\" -n \"NEST,REMIX\"",
-    "start:debug": "nest start --debug --watch",
+    "start:dev": "cross-env NODE_ENV=development concurrently \"npm run start:dev:nest\" -n \"NEST\"",
     "start:prod": "cross-env NODE_ENV=production node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
@@ -19,7 +18,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "build:nest": "rimraf dist && nest build -p tsconfig.nest.json",
-    "build:remix": "rimraf build && remix build",
+    "build:remix": "rimraf build && remix vite:build",
     "start:dev:nest": "rimraf dist && nest start --watch -p tsconfig.nest.json",
     "start:dev:remix": "rimraf build && concurrently \"remix watch\""
   },
@@ -67,7 +66,10 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vite": "^5.4.10",
+    "vite-plugin-commonjs": "^0.10.3",
+    "vite-tsconfig-paths": "^5.0.1"
   },
   "peerDependencies": {
     "@nestjs/common": "^10.3.8",

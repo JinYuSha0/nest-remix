@@ -1,11 +1,7 @@
 import type { ParamData, RouteParamMetadata } from "@nestjs/common";
 import { assignMetadata } from "@nestjs/common";
 import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
-import {
-  markTypeAsProvider,
-  RemixProperty,
-  setRemixTypeDescriptor,
-} from "./remix.core";
+import { RemixProperty, setRemixTypeDescriptor } from "./remix.core";
 import { isConstructor } from "./remix.helper";
 import { CUSTOM_PARAM_TYPE } from "./remix.constant";
 
@@ -39,7 +35,6 @@ function Decorator(property: RemixProperty) {
     if (!isConstructor(type)) {
       return;
     }
-    markTypeAsProvider(type);
     setRemixTypeDescriptor(type, propertyKey, property);
   };
 }

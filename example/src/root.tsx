@@ -2,6 +2,7 @@ import type { MetaFunction } from '@remix-run/node';
 import {
   Link,
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -28,6 +29,7 @@ export default function App() {
         <div id="root">
           <Outlet />
           <Scripts />
+          <LiveReload port={3000} />
         </div>
       </body>
     </html>

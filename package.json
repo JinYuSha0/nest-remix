@@ -56,7 +56,8 @@
     "@remix-run/testing": "^2.9.2",
     "@testing-library/react": "^15.0.7",
     "@types/node": "^20.12.12",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vite": "^5.4.10"
   },
   "peerDependencies": {
     "@nestjs/common": "^10.3.8",

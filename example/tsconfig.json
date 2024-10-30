@@ -26,6 +26,6 @@
     "strictPropertyInitialization": false,
     "skipLibCheck": true
   },
-  "include": ["src", "app.env.d.ts"],
+  "include": ["src", "app.env.d.ts", "vite.config.mts"],
   "exclude": ["build", "scripts", "dist", "test", "node_modules"]
 }

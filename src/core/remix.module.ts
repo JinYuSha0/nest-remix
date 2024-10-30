@@ -4,9 +4,6 @@ import { Module } from "@nestjs/common";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { buildRemixConfigProvider } from "./remix.config";
 import { RemixController } from "./remix.controller";
-import { getModuleProviders } from "./remix.core";
-import * as path from "path";
-import dynamicImportRemixBackend from "./remix.dynamicImport";
 
 export type ProcessMetadata = <T extends ModuleMetadata>(metadata: T) => T;
 
@@ -14,8 +11,6 @@ export const RemixModule = (
   metadata: ModuleMetadata & RemixConfig,
   processMetadata: ProcessMetadata = (metadata) => metadata
 ) => {
-  dynamicImportRemixBackend(metadata.remixServerDir);
-  const providers = getModuleProviders();
   const controllers = metadata.controllers ?? [];
   if (!metadata.useCustomController) {
     controllers.push(RemixController);
@@ -26,11 +21,14 @@ export const RemixModule = (
         ...(metadata.imports ?? []),
         ServeStaticModule.forRoot(
           {
-            rootPath: metadata.publicDir,
+            rootPath: metadata.browserBuildDir,
             serveRoot: "/",
             serveStaticOptions: {
               setHeaders(res, pathname) {
-                const relativePath = pathname.replace(metadata.publicDir, "");
+                const relativePath = pathname.replace(
+                  metadata.browserBuildDir,
+                  ""
+                );
                 res.setHeader(
                   "Cache-Control",
                   relativePath.startsWith(metadata.browserBuildDir)
@@ -46,10 +44,9 @@ export const RemixModule = (
       controllers: controllers,
       providers: [
         ...(metadata.providers ?? []),
-        ...providers,
         buildRemixConfigProvider(metadata),
       ],
-      exports: [...(metadata.exports ?? []), ...providers],
+      exports: [...(metadata.exports ?? [])],
     })
   );
 };

@@ -11,11 +11,10 @@ export const buildRemixConfigProvider = (config: RemixConfig) => {
   return {
     provide: REMIX_CONFIG,
     useValue: {
-      publicDir: config.publicDir,
+      remixServerDir:
+        config.remixServerDir ??
+        path.join(process.cwd(), "./dist/routes/server"),
       browserBuildDir: config.browserBuildDir,
-      remixServerDir: config.remixServerDir ?? path.join(
-        process.cwd(), "./dist/routes/server"
-      ),
       useCustomController: config.useCustomController ?? "RemixController",
       isStaticAsset: config.isStaticAsset,
     } as RemixConfig,
@@ -23,9 +22,8 @@ export const buildRemixConfigProvider = (config: RemixConfig) => {
 };
 
 export type RemixConfig = {
-  publicDir: string;
+  remixServerDir: string;
   browserBuildDir: string;
-  remixServerDir?: string;
   staticDirs?: ServeStaticModuleOptions[];
   useCustomController?: string;
   isStaticAsset?: (request: Request) => boolean;

@@ -1,4 +1,4 @@
-import { Injectable, Req, ForbiddenException, UseGuards } from '@nestjs/common';
+import { Injectable, Req, UseGuards } from '@nestjs/common';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { Loader, Action, useAction, useLoader } from 'nestjs-remix';
 import { AppService } from '~/modules/app/app.service';

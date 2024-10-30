@@ -3,18 +3,13 @@ import type { HttpServer, CanActivate, ArgumentMetadata } from "@nestjs/common";
 import type { ApplicationConfig } from "@nestjs/core/application-config";
 import type { NextFunction } from "express-serve-static-core";
 import type { RemixLoadContext } from "./remix.controller";
-import type {
-  ClassProvider,
-  PipeTransform,
-  Type,
-  RouteParamMetadata,
-} from "@nestjs/common";
+import type { PipeTransform, Type, RouteParamMetadata } from "@nestjs/common";
 import type {
   LoaderFunction,
   ActionFunction,
   LoaderFunctionArgs,
 } from "@remix-run/node";
-import type { NestContainer } from "@nestjs/core/injector/container";
+import { NestContainer } from "@nestjs/core/injector/container";
 import type { ParamProperties } from "@nestjs/core/helpers/context-utils";
 import type { HandlerMetadata } from "@nestjs/core/helpers/handler-metadata-storage";
 import type { RouterProxyCallback } from "@nestjs/core/router/router-proxy";
@@ -55,39 +50,8 @@ import { ExecutionContextHost } from "@nestjs/core/helpers/execution-context-hos
 import { RemixSimulateHost } from "./remix.simulate.host";
 import { setExpressApp } from "./express.utils";
 
-const RemixProviderMap: Map<string, ClassProvider> = new Map();
-
-const PROVIDER_PREFIX = "Remix_";
-
 const getProviderName = (type: Type | string) =>
-  typeof type === "string"
-    ? type.startsWith(PROVIDER_PREFIX)
-      ? type
-      : `${PROVIDER_PREFIX}${type}`
-    : type.name.startsWith(PROVIDER_PREFIX)
-      ? type.name
-      : `${PROVIDER_PREFIX}${type.name}`;
-
-export const markTypeAsProvider = (type: Type) => {
-  if (!type.name.startsWith(PROVIDER_PREFIX)) {
-    Object.defineProperty(type, "name", {
-      configurable: true,
-      value: getProviderName(type),
-    });
-  }
-  const name = type.name;
-  if (RemixProviderMap.has(name)) return;
-  RemixProviderMap.set(name, {
-    provide: name,
-    useClass: type,
-  });
-};
-
-export const getModuleProviders = () => {
-  return Array.from(RemixProviderMap.entries()).map(
-    ([_, provider]) => provider
-  );
-};
+  typeof type === "string" ? type : type.name;
 
 export enum RemixProperty {
   Loader = "Loader",
@@ -149,7 +113,7 @@ const getRemixTypeDescriptor = (type: Type): RemixDescriptor | undefined =>
 
 type ReturnFunction = LoaderFunction | ActionFunction;
 
-class RemixExecutionContext {
+export class RemixExecutionContext {
   public static instance: RemixExecutionContext;
 
   private readonly routeParamsFactory: RouteParamsFactory;
@@ -478,7 +442,7 @@ class RemixExecutionContext {
   }
 }
 
-class RemixExceptionsFilter {
+export class RemixExceptionsFilter {
   public static instance: RemixExceptionsFilter;
 
   private routerExceptionFilters: RouterExceptionFilters;
@@ -562,7 +526,13 @@ const useDecorator = (
     }
     const methodName =
       typeOrDescriptor[property] ?? typeOrDescriptor[RemixProperty.ActionAll]!;
-    const executionContext = await RemixExecutionContext.instance.create(
+
+    const remixExecutionContext =
+      RemixExecutionContext.instance ?? global.remixExecutionContext;
+    const remixExceptionsFilter =
+      RemixExceptionsFilter.instance ?? global.remixExceptionsFilter;
+
+    const executionContext = await remixExecutionContext.create(
       property,
       instance,
       methodName,
@@ -570,13 +540,15 @@ const useDecorator = (
       args.context as RemixLoadContext,
       args
     );
-    const exceptionFilter = RemixExceptionsFilter.instance.create(
+
+    const exceptionFilter = remixExceptionsFilter.create(
       instance,
       instance[methodName],
       (args.context as RemixLoadContext).moduleKey,
       STATIC_CONTEXT,
       undefined
     );
+
     return RemixExceptionsFilter.createProxy(
       executionContext as RouterProxyCallback,
       exceptionFilter
@@ -595,6 +567,10 @@ export const startNestRemix = (app: NestApplication) => {
     httpAdapterRef
   );
   RemixExceptionsFilter.instance = new RemixExceptionsFilter(container, config);
+  if (process.env.NODE_ENV !== "production") {
+    global.remixExecutionContext = RemixExecutionContext.instance;
+    global.remixExceptionsFilter = RemixExceptionsFilter.instance;
+  }
 };
 export const useLoader = (type: Type) =>
   useDecorator(type, RemixProperty.Loader) as LoaderFunction;
