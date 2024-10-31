@@ -1,10 +1,8 @@
 import type { AppLoadContext } from "@remix-run/server-runtime/dist/data.d";
 import type { GetLoadContextFunction } from "@remix-run/express";
 import type { NextFunction } from "express-serve-static-core";
-import type { ViteDevServer } from "vite";
 import type { ServerBuild } from "@remix-run/server-runtime";
 import path from "path";
-import httpProxy from "http-proxy";
 import * as vmod from "@remix-run/dev/dist/vite/vmod";
 import { All, Controller, Next, Req, Res } from "@nestjs/common";
 import { ModuleRef } from "@nestjs/core/injector/module-ref";
@@ -35,9 +33,6 @@ async function devGlobalDetect() {
 
 @Controller("/")
 export class RemixController {
-  private viteDevServer?: ViteDevServer;
-  private proxy?: ReturnType<(typeof httpProxy)["createProxyServer"]>;
-
   constructor(
     @InjectRemixConfig() private readonly remixConfig: RemixConfig,
     private readonly moduleRef: ModuleRef
