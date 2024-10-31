@@ -15,6 +15,7 @@ import type { HandlerMetadata } from "@nestjs/core/helpers/handler-metadata-stor
 import type { RouterProxyCallback } from "@nestjs/core/router/router-proxy";
 import type { ExceptionsHandler } from "@nestjs/core//exceptions/exceptions-handler";
 import type { Controller } from "@nestjs/common/interfaces";
+import type { ViteDevServer } from "vite";
 import { lastValueFrom, isObservable } from "rxjs";
 import {
   CUSTOM_ROUTE_ARGS_METADATA,
@@ -49,6 +50,7 @@ import { STATIC_CONTEXT } from "@nestjs/core/injector/constants";
 import { ExecutionContextHost } from "@nestjs/core/helpers/execution-context-host";
 import { RemixSimulateHost } from "./remix.simulate.host";
 import { setExpressApp } from "./express.utils";
+import { installGlobals } from "@remix-run/node";
 
 const getProviderName = (type: Type | string) =>
   typeof type === "string" ? type : type.name;
@@ -556,7 +558,20 @@ const useDecorator = (
   };
 };
 
-export const startNestRemix = (app: NestApplication) => {
+export let viteDevServer: ViteDevServer;
+
+export const startNestRemix = async (app: NestApplication) => {
+  const IS_DEV = process.env.NODE_ENV !== "production";
+
+  if (IS_DEV) {
+    installGlobals();
+    viteDevServer = await import("vite").then((vite) =>
+      vite.createServer({
+        server: { middlewareMode: true },
+      })
+    );
+  }
+
   const container = (app as any).container as NestContainer;
   const config = (app as any).config as ApplicationConfig;
   const httpAdapterRef = container.getHttpAdapterRef();
@@ -567,7 +582,7 @@ export const startNestRemix = (app: NestApplication) => {
     httpAdapterRef
   );
   RemixExceptionsFilter.instance = new RemixExceptionsFilter(container, config);
-  if (process.env.NODE_ENV !== "production") {
+  if (IS_DEV) {
     global.remixExecutionContext = RemixExecutionContext.instance;
     global.remixExceptionsFilter = RemixExceptionsFilter.instance;
   }

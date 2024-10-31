@@ -1,16 +1,20 @@
 import type { AppLoadContext } from "@remix-run/server-runtime/dist/data.d";
 import type { GetLoadContextFunction } from "@remix-run/express";
 import type { NextFunction } from "express-serve-static-core";
-import { type ViteDevServer } from "vite";
+import type { ViteDevServer } from "vite";
+import type { ServerBuild } from "@remix-run/server-runtime";
 import path from "path";
+import httpProxy from "http-proxy";
 import * as vmod from "@remix-run/dev/dist/vite/vmod";
 import { All, Controller, Next, Req, Res } from "@nestjs/common";
 import { ModuleRef } from "@nestjs/core/injector/module-ref";
 import { createRequestHandler } from "@remix-run/express";
 import { InjectRemixConfig, RemixConfig } from "./remix.config";
 import { hasAnotherMatch } from "./express.utils";
-import { dynamicImport } from "./remix.helper";
-import { ServerBuild } from "@remix-run/node";
+import { delay, dynamicImport } from "./remix.helper";
+import { createRoutes } from "@remix-run/server-runtime/dist/routes";
+import { matchServerRoutes } from "@remix-run/server-runtime/dist/routeMatching";
+import { viteDevServer } from "./remix.core";
 
 const serverBuildId = vmod.id("server-build");
 
@@ -22,9 +26,17 @@ export interface RemixLoadContext extends AppLoadContext {
   next: NextFunction;
 }
 
+async function devGlobalDetect() {
+  if (!global.remixExecutionContext) {
+    await delay(300);
+    return devGlobalDetect();
+  }
+}
+
 @Controller("/")
 export class RemixController {
   private viteDevServer?: ViteDevServer;
+  private proxy?: ReturnType<(typeof httpProxy)["createProxyServer"]>;
 
   constructor(
     @InjectRemixConfig() private readonly remixConfig: RemixConfig,
@@ -44,6 +56,7 @@ export class RemixController {
     this.purgeRequireCacheInDev();
 
     if (hasAnotherMatch(req)) {
+      console.log("hasAnotherMatch");
       return next();
     }
 
@@ -59,25 +72,36 @@ export class RemixController {
       };
     };
 
-    if (process.env.NODE_ENV !== "production") {
-      if (!this.viteDevServer) {
-        const vite = require("vite");
-        this.viteDevServer = await vite.createServer({});
+    try {
+      if (viteDevServer || process.env.NODE_ENV !== "production") {
+        await devGlobalDetect();
+        const build = (await viteDevServer.ssrLoadModule(
+          serverBuildId
+        )) as ServerBuild;
+        if (
+          matchServerRoutes(createRoutes(build.routes), req.url, build.basename)
+        ) {
+          return createRequestHandler({
+            build: build,
+            getLoadContext,
+          })(req, res, next);
+        } else {
+          // @ts-ignore
+          viteDevServer.middlewares(req, res, next);
+        }
+      } else {
+        const serverBuildFile = path.join(
+          this.remixConfig.remixServerDir,
+          "index.js"
+        );
+        return createRequestHandler({
+          // https://github.com/microsoft/TypeScript/issues/43329
+          build: await dynamicImport(serverBuildFile),
+          getLoadContext,
+        })(req, res, next);
       }
-      const build = (await this.viteDevServer.ssrLoadModule(
-        serverBuildId
-      )) as ServerBuild;
-      return createRequestHandler({ build, getLoadContext })(req, res, next);
-    } else {
-      const serverBuildFile = path.join(
-        this.remixConfig.remixServerDir,
-        "index.js"
-      );
-      return createRequestHandler({
-        // https://github.com/microsoft/TypeScript/issues/43329
-        build: await dynamicImport(serverBuildFile),
-        getLoadContext,
-      })(req, res, next);
+    } catch (error) {
+      next(error);
     }
   }
 

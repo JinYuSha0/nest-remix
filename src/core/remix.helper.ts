@@ -21,3 +21,11 @@ export const dynamicImport = async (filepath: string) => {
   }
   return await awaitImport(href);
 };
+
+export const delay = (ms: number) => {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+};
