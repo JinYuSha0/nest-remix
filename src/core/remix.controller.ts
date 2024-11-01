@@ -25,7 +25,7 @@ export interface RemixLoadContext extends AppLoadContext {
 }
 
 async function devGlobalDetect() {
-  if (!global.remixExecutionContext) {
+  if (!global.remixExecutionContext || !viteDevServer) {
     await delay(300);
     return devGlobalDetect();
   }

@@ -50,7 +50,6 @@ import { STATIC_CONTEXT } from "@nestjs/core/injector/constants";
 import { ExecutionContextHost } from "@nestjs/core/helpers/execution-context-host";
 import { RemixSimulateHost } from "./remix.simulate.host";
 import { setExpressApp } from "./express.utils";
-import { installGlobals } from "@remix-run/node";
 
 const getProviderName = (type: Type | string) =>
   typeof type === "string" ? type : type.name;
@@ -564,12 +563,13 @@ export const startNestRemix = async (app: NestApplication) => {
   const IS_DEV = process.env.NODE_ENV !== "production";
 
   if (IS_DEV) {
-    installGlobals();
-    viteDevServer = await import("vite").then((vite) =>
-      vite.createServer({
-        server: { middlewareMode: true },
-      })
-    );
+    if (!viteDevServer) {
+      viteDevServer = await import("vite").then((vite) =>
+        vite.createServer({
+          server: { middlewareMode: true },
+        })
+      );
+    }
   }
 
   const container = (app as any).container as NestContainer;
