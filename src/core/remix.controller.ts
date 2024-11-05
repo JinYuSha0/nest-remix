@@ -5,6 +5,7 @@ import type { ServerBuild } from "@remix-run/server-runtime";
 import path from "path";
 import * as vmod from "@remix-run/dev/dist/vite/vmod";
 import { All, Controller, Next, Req, Res } from "@nestjs/common";
+import { ApiExcludeController } from "@nestjs/swagger";
 import { ModuleRef } from "@nestjs/core/injector/module-ref";
 import { createRequestHandler } from "@remix-run/express";
 import { InjectRemixConfig, RemixConfig } from "./remix.config";
@@ -31,6 +32,7 @@ async function devGlobalDetect() {
   }
 }
 
+@ApiExcludeController()
 @Controller("/")
 export class RemixController {
   constructor(
@@ -51,7 +53,6 @@ export class RemixController {
     this.purgeRequireCacheInDev();
 
     if (hasAnotherMatch(req)) {
-      console.log("hasAnotherMatch");
       return next();
     }
 
