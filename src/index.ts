@@ -15,6 +15,7 @@ declare global {
   namespace Express {
     interface Request {
       handleByRemix?: boolean;
+      handleByVite?: boolean;
       remixParams?: Params;
     }
   }

@@ -54,9 +54,6 @@ export class RemixController {
       return next();
     }
 
-    // Mark this request to be handled by remix
-    req.handleByRemix = true;
-
     const getLoadContext: GetLoadContextFunction = (req) => {
       return {
         moduleRef: this.moduleRef,
@@ -69,6 +66,8 @@ export class RemixController {
     try {
       if (viteDevServer || process.env.NODE_ENV !== "production") {
         await devGlobalDetect();
+        // Mark this request to be handled by remix
+        req.handleByRemix = true;
         const build = (await viteDevServer.ssrLoadModule(
           serverBuildId
         )) as ServerBuild;
@@ -80,10 +79,14 @@ export class RemixController {
             getLoadContext,
           })(req, res, next);
         } else {
+          // Mark this request to be handled by vite
+          req.handleByVite = true;
           // @ts-ignore
           viteDevServer.middlewares(req, res, next);
         }
       } else {
+        // Mark this request to be handled by remix
+        req.handleByRemix = true;
         const serverBuildFile = path.join(
           this.remixConfig.remixServerDir,
           "index.js"
