@@ -557,11 +557,10 @@ const useDecorator = (
   };
 };
 
+const IS_DEV = process.env.NODE_ENV !== "production";
 export let viteDevServer: ViteDevServer;
 
-export const startNestRemix = async (app: NestApplication) => {
-  const IS_DEV = process.env.NODE_ENV !== "production";
-
+export const startViteServer = async (app: NestApplication) => {
   if (IS_DEV) {
     if (!viteDevServer) {
       viteDevServer = await import("vite").then((vite) =>
@@ -569,9 +568,12 @@ export const startNestRemix = async (app: NestApplication) => {
           server: { middlewareMode: true },
         })
       );
+      app.use(viteDevServer.middlewares);
     }
   }
+};
 
+export const startNestRemix = (app: NestApplication) => {
   const container = (app as any).container as NestContainer;
   const config = (app as any).config as ApplicationConfig;
   const httpAdapterRef = container.getHttpAdapterRef();

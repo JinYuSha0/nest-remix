@@ -55,6 +55,7 @@ export function hasAnotherMatch(req) {
   if (!stacks.length) return false;
   for (let layer of stacks) {
     if (
+      layer.regexp &&
       layer.regexp.test(req.path) &&
       !layer.regexp.test("/") &&
       layer.route.methods[String(req.method).toLocaleLowerCase()]

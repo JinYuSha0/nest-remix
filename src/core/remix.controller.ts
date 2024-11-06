@@ -2,8 +2,6 @@ import type { AppLoadContext } from "@remix-run/server-runtime/dist/data.d";
 import type { GetLoadContextFunction } from "@remix-run/express";
 import type { NextFunction } from "express-serve-static-core";
 import type { ServerBuild } from "@remix-run/server-runtime";
-import path from "path";
-import * as vmod from "@remix-run/dev/dist/vite/vmod";
 import { All, Controller, Next, Req, Res } from "@nestjs/common";
 import { ModuleRef } from "@nestjs/core/injector/module-ref";
 import { createRequestHandler } from "@remix-run/express";
@@ -13,6 +11,8 @@ import { delay, dynamicImport } from "./remix.helper";
 import { createRoutes } from "@remix-run/server-runtime/dist/routes";
 import { matchServerRoutes } from "@remix-run/server-runtime/dist/routeMatching";
 import { viteDevServer } from "./remix.core";
+import path from "path";
+import * as vmod from "@remix-run/dev/dist/vite/vmod";
 
 const serverBuildId = vmod.id("server-build");
 
@@ -63,11 +63,12 @@ export class RemixController {
       };
     };
 
+    // Mark this request to be handled by remix
+    req.handleByRemix = true;
+
     try {
-      if (viteDevServer || process.env.NODE_ENV !== "production") {
+      if (process.env.NODE_ENV !== "production") {
         await devGlobalDetect();
-        // Mark this request to be handled by remix
-        req.handleByRemix = true;
         const build = (await viteDevServer.ssrLoadModule(
           serverBuildId
         )) as ServerBuild;
@@ -75,18 +76,13 @@ export class RemixController {
           matchServerRoutes(createRoutes(build.routes), req.url, build.basename)
         ) {
           return createRequestHandler({
-            build: build,
+            build,
             getLoadContext,
           })(req, res, next);
         } else {
-          // Mark this request to be handled by vite
-          req.handleByVite = true;
-          // @ts-ignore
-          viteDevServer.middlewares(req, res, next);
+          next();
         }
       } else {
-        // Mark this request to be handled by remix
-        req.handleByRemix = true;
         const serverBuildFile = path.join(
           this.remixConfig.remixServerDir,
           "index.js"
