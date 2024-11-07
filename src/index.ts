@@ -1,4 +1,5 @@
 import type { Params } from "@remix-run/react";
+import type * as core from "express-serve-static-core";
 
 export {
   RemixModule,
@@ -15,12 +16,11 @@ declare global {
   namespace Express {
     interface Request {
       handleByRemix?: boolean;
-      handleByVite?: boolean;
       remixParams?: Params;
     }
   }
 
-  interface Request extends Express.Request {}
+  interface Request extends core.Request {}
 
-  interface Response extends Express.Response {}
+  interface Response extends core.Response {}
 }
