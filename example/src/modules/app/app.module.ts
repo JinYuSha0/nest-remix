@@ -1,14 +1,12 @@
-import * as path from 'path';
-import { RemixModule } from 'nestjs-remix';
+import { Module } from '@nestjs/common';
+import { RemixService } from 'nestjs-remix';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import remixServers from '~/routes/server/all.server';
+import remixPageServices from '~/routes/server/all.server';
 
-@RemixModule({
-  browserBuildDir: path.join(process.cwd(), '/build/client'),
-  remixServerDir: path.join(process.cwd(), '/build/server'),
+@Module({
   imports: [],
   controllers: [AppController],
-  providers: [AppService, ...remixServers],
+  providers: [AppService, RemixService, ...remixPageServices],
 })
 export class AppModule {}

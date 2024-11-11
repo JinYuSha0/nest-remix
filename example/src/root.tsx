@@ -58,16 +58,14 @@ export function ErrorBoundary() {
         <Links />
       </head>
       <body>
-        <section>
-          <div>
-            <h1>{error.status}</h1>
-            <h3>{error.statusText}</h3>
-            {!!cause && <p>cause: {cause}</p>}
-          </div>
-          <Link to="/">
-            <button>Back home</button>
-          </Link>
-        </section>
+        <div>
+          <h1>{error.status}</h1>
+          <h3>{error.statusText}</h3>
+          {!!cause && <p>cause: {cause}</p>}
+        </div>
+        <Link to="/">
+          <button>Back home</button>
+        </Link>
         <Scripts />
       </body>
     </html>

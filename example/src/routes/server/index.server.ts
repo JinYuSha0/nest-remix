@@ -20,7 +20,6 @@ export class IndexBackend {
     @Test() test: string,
     @Query('name') name?: string,
   ) {
-    console.log(test);
     return { message: this.appService.getHello(name) + ', now: ' + Date.now() };
   }
 

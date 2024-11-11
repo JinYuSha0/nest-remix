@@ -11,8 +11,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalInterceptors(new GlobalInterceptor());
+  await startNestRemix(app);
   await app.listen(3000);
-  // Must be after the listen method
-  startNestRemix(app);
 }
 bootstrap();

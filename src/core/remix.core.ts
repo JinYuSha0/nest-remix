@@ -2,14 +2,14 @@ import type { NestApplication } from "@nestjs/core";
 import type { HttpServer, CanActivate, ArgumentMetadata } from "@nestjs/common";
 import type { ApplicationConfig } from "@nestjs/core/application-config";
 import type { NextFunction } from "express-serve-static-core";
-import type { RemixLoadContext } from "./remix.controller";
 import type { PipeTransform, Type, RouteParamMetadata } from "@nestjs/common";
 import type {
   LoaderFunction,
   ActionFunction,
   LoaderFunctionArgs,
 } from "@remix-run/node";
-import { NestContainer } from "@nestjs/core/injector/container";
+import type { NestContainer } from "@nestjs/core/injector/container";
+import type { RemixLoadContext, RemixConfig } from "index";
 import type { ParamProperties } from "@nestjs/core/helpers/context-utils";
 import type { HandlerMetadata } from "@nestjs/core/helpers/handler-metadata-storage";
 import type { RouterProxyCallback } from "@nestjs/core/router/router-proxy";
@@ -49,7 +49,9 @@ import { HandlerMetadataStorage } from "@nestjs/core/helpers/handler-metadata-st
 import { STATIC_CONTEXT } from "@nestjs/core/injector/constants";
 import { ExecutionContextHost } from "@nestjs/core/helpers/execution-context-host";
 import { RemixSimulateHost } from "./remix.simulate.host";
-import { setExpressApp } from "./express.utils";
+import { remixMiddleware } from "./remix.middleware";
+import { defaultRemixConfig } from "index";
+import bodyParser from "body-parser";
 
 const getProviderName = (type: Type | string) =>
   typeof type === "string" ? type : type.name;
@@ -560,7 +562,17 @@ const useDecorator = (
 const IS_DEV = process.env.NODE_ENV !== "production";
 export let viteDevServer: ViteDevServer;
 
-export const startViteServer = async (app: NestApplication) => {
+export const startNestRemix = async (
+  app: NestApplication,
+  remixConfig: RemixConfig = defaultRemixConfig
+) => {
+  // client static file middleware
+  app.useStaticAssets(
+    remixConfig.remixClientDir,
+    remixConfig.remixClientFileOptions
+  );
+
+  // vite middleware (DEV only)
   if (IS_DEV) {
     if (!viteDevServer) {
       viteDevServer = await import("vite").then((vite) =>
@@ -571,13 +583,13 @@ export const startViteServer = async (app: NestApplication) => {
       app.use(viteDevServer.middlewares);
     }
   }
-};
 
-export const startNestRemix = (app: NestApplication) => {
+  // remix middleware
+  app.use(bodyParser.urlencoded(), await remixMiddleware(app, remixConfig));
+
   const container = (app as any).container as NestContainer;
   const config = (app as any).config as ApplicationConfig;
   const httpAdapterRef = container.getHttpAdapterRef();
-  setExpressApp((httpAdapterRef as any).instance);
   RemixExecutionContext.instance = new RemixExecutionContext(
     container,
     config,
@@ -589,6 +601,7 @@ export const startNestRemix = (app: NestApplication) => {
     global.remixExceptionsFilter = RemixExceptionsFilter.instance;
   }
 };
+
 export const useLoader = (type: Type) =>
   useDecorator(type, RemixProperty.Loader) as LoaderFunction;
 export const useAction = (type: Type) =>
