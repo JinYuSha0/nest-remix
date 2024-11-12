@@ -25,29 +25,35 @@ export const remixMiddleware = async (
   }
 
   return async (req: Request, res: Response, next: NextFunction) => {
-    if (IS_DEV) {
-      build = (await viteDevServer.ssrLoadModule(serverBuildId)) as ServerBuild;
-    }
+    try {
+      if (IS_DEV) {
+        build = (await viteDevServer.ssrLoadModule(
+          serverBuildId
+        )) as ServerBuild;
+      }
 
-    if (
-      matchServerRoutes(createRoutes(build.routes), req.url, build.basename)
-    ) {
-      // Mark this request to be handled by remix
-      req.handleByRemix = true;
-      const getLoadContext: GetLoadContextFunction = (req) => {
-        return {
-          moduleRef,
-          req,
-          res,
-          next,
+      if (
+        matchServerRoutes(createRoutes(build.routes), req.url, build.basename)
+      ) {
+        // Mark this request to be handled by remix
+        req.handleByRemix = true;
+        const getLoadContext: GetLoadContextFunction = (req) => {
+          return {
+            moduleRef,
+            req,
+            res,
+            next,
+          };
         };
-      };
-      return createRequestHandler({
-        build,
-        getLoadContext,
-      })(req, res, next);
-    } else {
-      next();
+        return createRequestHandler({
+          build,
+          getLoadContext,
+        })(req, res, next);
+      } else {
+        next();
+      }
+    } catch (err) {
+      next(err);
     }
   };
 };
