@@ -25,7 +25,7 @@ import {
 } from "@nestjs/common/constants";
 import { ForbiddenException } from "@nestjs/common/exceptions";
 import { RequestMethod } from "@nestjs/common/enums";
-import { isConstructor } from "./remix.helper";
+import { IS_DEV, isConstructor } from "./remix.helper";
 import { RouteParamsFactory } from "@nestjs/core/router/route-params-factory";
 import { ContextUtils } from "@nestjs/core/helpers/context-utils";
 import { RouterExceptionFilters } from "@nestjs/core/router/router-exception-filters";
@@ -559,7 +559,6 @@ const useDecorator = (
   };
 };
 
-const IS_DEV = process.env.NODE_ENV !== "production";
 export let viteDevServer: ViteDevServer;
 
 export const startNestRemix = async (

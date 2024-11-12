@@ -7,7 +7,7 @@ import { matchServerRoutes } from "@remix-run/server-runtime/dist/routeMatching"
 import { viteDevServer } from "./remix.core";
 import { createRequestHandler } from "@remix-run/express";
 import { RemixService } from "./remix.service";
-import { dynamicImport } from "./remix.helper";
+import { dynamicImport, IS_DEV } from "./remix.helper";
 import * as vmod from "@remix-run/dev/dist/vite/vmod";
 
 const serverBuildId = vmod.id("server-build");
@@ -20,12 +20,12 @@ export const remixMiddleware = async (
 
   const moduleRef = app.get(RemixService);
 
-  if (process.env.NODE_ENV === "production") {
+  if (!IS_DEV) {
     build = (await dynamicImport(remixConfig.remixServerFile)) as ServerBuild;
   }
 
   return async (req: Request, res: Response, next: NextFunction) => {
-    if (!build) {
+    if (IS_DEV) {
       build = (await viteDevServer.ssrLoadModule(serverBuildId)) as ServerBuild;
     }
 
