@@ -6,6 +6,7 @@ import type {
   LoaderFunctionArgs,
   ActionFunctionArgs,
 } from "@remix-run/node";
+import type { RequestHandler } from "express";
 import type { NestContainer } from "@nestjs/core/injector/container";
 import type { RemixLoadContext, RemixConfig } from "index";
 import type { ViteDevServer } from "vite";
@@ -142,7 +143,8 @@ const useDecorator = (
 
 export const startNestRemix = async (
   app: NestApplication,
-  remixConfig: RemixConfig = defaultRemixConfig
+  remixConfig: RemixConfig = defaultRemixConfig,
+  remixMiddlewares: RequestHandler[] = []
 ) => {
   // client static file middleware
   app.useStaticAssets(
@@ -163,7 +165,11 @@ export const startNestRemix = async (
   }
 
   // remix middleware
-  app.use(bodyParser.urlencoded(), await remixMiddleware(app, remixConfig));
+  app.use(
+    bodyParser.urlencoded(),
+    ...remixMiddlewares,
+    await remixMiddleware(app, remixConfig)
+  );
 
   const container = (app as any).container as NestContainer;
 
