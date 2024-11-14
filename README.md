@@ -92,31 +92,22 @@ yarn run start:dev
 yarn add nestjs-remix
 ```
 
-### 2.Replace Root Module
+### 2.Inject remix services
 
 ```typescript
-import { RemixModule } from "nestjs-remix";
+import { Module } from "@nestjs/common";
+// part 1
+import { RemixService } from "nestjs-remix";
+// part 2
+import remixPageServices from "~/routes/server/all.server";
 
-@RemixModule({
-  publicDir: path.join(process.cwd(), "public"),
-  browserBuildDir: path.join(process.cwd(), "build"),
+@Module({
   imports: [],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, RemixService, ...remixPageServices],
 })
 export class AppModule {}
 ```
-
-| Property             | Description                                   | Type                          | Required |
-| -------------------- | --------------------------------------------- | ----------------------------- | -------- |
-| publicDir            | Remix frontend build output directory         | string                        | true     |
-| browserBuildDir      | Remix entry build output directory            | string                        | true     |
-| remixServerDir       | Remix backend build output directory          | string                        | true     |
-| staticDirs           | Multiple static file directory configurations | ServeStaticModuleOptions[]    | false    |
-| useCoustomController | Use a custom root path controller             | boolean                       | false    |
-| isStaticAsset        | Determine whether it is a static file         | (request: Request) => boolean | false    |
-
-<b>Except for these new properties, it is no different from the Nestjs module.</b>
 
 ### 3. Start nestjs-remix
 
@@ -124,10 +115,10 @@ export class AppModule {}
 import { startNestRemix } from "nestjs-remix";
 
 async function bootstrap() {
+  const app = await NestFactory.create<NestApplication>(AppModule);
   // ...
+  await startNestRemix(app);
   await app.listen(3000);
-  // Must be after the listen method
-  startNestRemix(app);
 }
 bootstrap();
 ```
@@ -139,12 +130,13 @@ bootstrap();
     "build": "concurrently \"npm run build:nest\" \"npm run build:remix\" -n \"NEST,REMIX\"",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "concurrently \"npm run start:dev:nest\" \"npm run start:dev:remix\" -n \"NEST,REMIX\"",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:dev": "cross-env NODE_ENV=development concurrently \"npm run start:dev:nest\" -n \"NEST\"",
+    "start:prod": "cross-env NODE_ENV=production node dist/main",
     "build:nest": "rimraf dist && nest build -p tsconfig.nest.json",
-    "build:remix": "rimraf build && remix build",
+    "build:remix": "rimraf build && remix vite:build",
     "start:dev:nest": "rimraf dist && nest start --watch -p tsconfig.nest.json",
     "start:dev:remix": "rimraf build && concurrently \"remix watch\""
   }
 ```
+
+<b>It's that simple</b>
