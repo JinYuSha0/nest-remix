@@ -1,4 +1,5 @@
 import type { Params } from "@remix-run/react";
+import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
 import type { AppLoadContext } from "@remix-run/server-runtime/dist/data.d";
 import type { RemixService } from "core/remix.service";
 import type { ServeStaticOptions } from "@nestjs/platform-express/interfaces/serve-static-options.interface";
@@ -39,6 +40,7 @@ declare global {
   namespace Express {
     interface Request {
       handleByRemix?: boolean;
+      remixArgs?: LoaderFunctionArgs | ActionFunctionArgs;
       remixParams?: Params;
     }
   }

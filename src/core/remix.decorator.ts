@@ -1,11 +1,11 @@
-import type { ParamData, RouteParamMetadata } from "@nestjs/common";
+import type { ParamData } from "@nestjs/common";
 import { assignMetadata } from "@nestjs/common";
 import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
 import { RemixProperty, setRemixTypeDescriptor } from "./remix.core";
 import { isConstructor } from "./remix.helper";
-import { CUSTOM_PARAM_TYPE } from "./remix.constant";
+import { RemixRouteParamtypes } from "./remix.constant";
 
-function createRouteParamDecorator(paramtype: string) {
+function createRouteParamDecorator(paramtype: number) {
   return (data?: ParamData): ParameterDecorator =>
     (target, key, index) => {
       if (!key) return;
@@ -13,12 +13,7 @@ function createRouteParamDecorator(paramtype: string) {
         Reflect.getMetadata(ROUTE_ARGS_METADATA, target.constructor, key) || {};
       Reflect.defineMetadata(
         ROUTE_ARGS_METADATA,
-        assignMetadata<string, Record<number, RouteParamMetadata>>(
-          args,
-          paramtype,
-          index,
-          data
-        ),
+        assignMetadata(args, paramtype, index, data),
         target.constructor,
         key
       );
@@ -26,7 +21,7 @@ function createRouteParamDecorator(paramtype: string) {
 }
 
 export const RemixArgs = createRouteParamDecorator(
-  CUSTOM_PARAM_TYPE.REMIX_ARGS
+  RemixRouteParamtypes.REMIX_ARGS
 );
 
 function Decorator(property: RemixProperty) {
