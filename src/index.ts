@@ -7,7 +7,7 @@ import type * as core from "express-serve-static-core";
 import path from "path";
 
 export {
-  RemixService,
+  resolveRemixServices,
   Loader,
   Action,
   RemixArgs,

@@ -96,18 +96,21 @@ yarn add nestjs-remix
 
 ```typescript
 import { Module } from "@nestjs/common";
-// part 1
-import { RemixService } from "nestjs-remix";
-// part 2
-import remixPageServices from "~/routes/server/all.server";
+import { resolve } from "path";
+import { resolveRemixServices } from "nestjs-remix";
 
 @Module({
   imports: [],
   controllers: [AppController],
-  providers: [AppService, RemixService, ...remixPageServices],
+  providers: [
+    AppService,
+    ...resolveRemixServices(resolve("dist/routes/server")),
+  ],
 })
 export class AppModule {}
 ```
+
+<b>Please note that the path is the path after build, not the source code path.so</b>
 
 ### 3. Start nestjs-remix
 
@@ -123,7 +126,7 @@ async function bootstrap() {
 bootstrap();
 ```
 
-### 4.Modify package.json scripts
+### 4.Modify package.json scripts (Optional)
 
 ```json
 "scripts": {
@@ -138,5 +141,3 @@ bootstrap();
     "start:dev:remix": "rimraf build && concurrently \"remix watch\""
   }
 ```
-
-<b>It's that simple</b>

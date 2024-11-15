@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
-import { RemixService } from 'nestjs-remix';
+import { resolve } from 'path';
+import { resolveRemixServices } from 'nestjs-remix';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import remixPageServices from '~/routes/server/all.server';
 
 @Module({
-  imports: [],
   controllers: [AppController],
-  providers: [AppService, RemixService, ...remixPageServices],
+  providers: [
+    AppService,
+    ...resolveRemixServices(resolve('dist/routes/server')),
+  ],
 })
 export class AppModule {}

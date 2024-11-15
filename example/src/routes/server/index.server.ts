@@ -20,7 +20,9 @@ export class IndexBackend {
     @Test() test: string,
     @Query('name') name?: string,
   ) {
-    return { message: this.appService.getHello(name) + ', now: ' + Date.now() };
+    return {
+      message: this.appService.getHello(name) + ', now: ' + Date.now(),
+    };
   }
 
   @Action()

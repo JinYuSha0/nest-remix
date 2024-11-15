@@ -15,7 +15,7 @@ export class FooBackend {
 
   @Loader()
   loader(@Req() req: Request) {
-    return ' Congratulations you have permission to access this page';
+    return 'Congratulations you have permission to access this page';
   }
 
   @Action()
