@@ -1,4 +1,4 @@
-import { TypedResponse } from "@remix-run/node";
+import type { TypedResponse, TypedDeferredData } from "@remix-run/node";
 import {
   useLoaderData as useRemixLoaderData,
   useActionData as useRemixActionData,
@@ -12,7 +12,9 @@ type ExcludeNever<T> = T extends TypedResponse<never> ? never : T;
 export type RemixReturnType<T, P extends keyof T> = T[P] extends AnyFunction
   ? Awaited<ReturnType<T[P]>> extends TypedResponse
     ? ExcludeNever<Awaited<ReturnType<Awaited<ReturnType<T[P]>>["json"]>>>
-    : ExcludeNever<Awaited<ReturnType<T[P]>>>
+    : Awaited<ReturnType<T[P]>> extends TypedDeferredData<any>
+      ? ExcludeNever<Awaited<ReturnType<T[P]>>>["data"]
+      : ExcludeNever<Awaited<ReturnType<T[P]>>>
   : never;
 
 export type LoaderReturnType<
