@@ -34,39 +34,34 @@ export default function App() {
   );
 }
 
+interface HttpError {
+  data: {
+    message?: string;
+    code?: number;
+    success?: false;
+  };
+  internal: boolean;
+  status: number;
+  statusText: string;
+}
+
 export function ErrorBoundary() {
-  const error = useRouteError() as any;
-  const data = useMemo(() => {
-    try {
-      return JSON.parse(error.data) as {
-        msg: string;
-        cause?: string | string[];
-      };
-    } catch {}
-    return void 0;
-  }, [error.data]);
-  const cause = useMemo(() => {
-    if (!data?.cause) return '';
-    if (Array.isArray(data.cause)) return data.cause.join(',');
-    return data.cause;
-  }, [data?.cause]);
+  const error = useRouteError() as HttpError;
   return (
     <html>
       <head>
-        <title>{error.status}</title>
+        <title>{error.statusText}</title>
         <Meta />
         <Links />
       </head>
       <body>
-        <div>
-          <h1>{error.status}</h1>
-          <h3>{error.statusText}</h3>
-          {!!cause && <p>cause: {cause}</p>}
+        <div id="root">
+          <h1>{error.data.code}</h1>
+          <h2>{error.data.message}</h2>
+          <Link to="/">
+            <button>Back home</button>
+          </Link>
         </div>
-        <Link to="/">
-          <button>Back home</button>
-        </Link>
-        <Scripts />
       </body>
     </html>
   );

@@ -22,7 +22,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       | HttpExceptionBody
       | undefined;
     let statusCode =
-      exceptionRes?.statusCode ?? exception.getStatus
+      (exceptionRes?.statusCode ?? exception.getStatus)
         ? exception.getStatus()
         : 500;
     let statusText =
@@ -38,13 +38,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     // Judge is handled by remix
     if (request.handleByRemix) {
-      if (exception instanceof Response) {
-        throw exception;
-      }
-      throw new Response(JSON.stringify({ msg: statusText, cause }), {
-        status: statusCode,
-        statusText: statusText,
-      });
+      throw exception;
     }
 
     const errorResponse = new GlobalResponse(

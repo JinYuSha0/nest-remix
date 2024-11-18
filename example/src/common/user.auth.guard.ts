@@ -2,6 +2,7 @@ import { redirect } from '@remix-run/node';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { AppService } from '~/modules/app/app.service';
+import { RemixUnauthorizedException } from './remix.exceptions';
 
 @Injectable()
 export class UserAuthGuard implements CanActivate {
@@ -21,6 +22,6 @@ export class UserAuthGuard implements CanActivate {
     if (this.redirectUrl != null && req.method === 'GET' && req.handleByRemix) {
       throw redirect(this.redirectUrl);
     }
-    return false;
+    throw RemixUnauthorizedException();
   }
 }
