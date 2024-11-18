@@ -14,7 +14,8 @@ export default defineConfig({
     commonjs(),
     remix({
       appDirectory: 'src',
-      serverModuleFormat: 'cjs',
+      serverModuleFormat: 'esm',
+      serverBuildFile: 'index.mjs',
       future: {
         v3_fetcherPersist: true,
         v3_relativeSplatPath: true,

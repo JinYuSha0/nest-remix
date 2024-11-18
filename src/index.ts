@@ -32,7 +32,7 @@ export type RemixConfig = {
 
 export const defaultRemixConfig: RemixConfig = {
   remixClientDir: path.join(process.cwd(), "/build/client"),
-  remixServerFile: path.join(process.cwd(), "/build/server/index.js"),
+  remixServerFile: path.join(process.cwd(), "/build/server/index.mjs"),
   remixClientFileOptions: { immutable: true, maxAge: "1d" },
 };
 

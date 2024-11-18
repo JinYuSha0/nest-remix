@@ -81,6 +81,7 @@ git clone https://github.com/JinYuSha0/nestjs-remix-template.git
 
 ```
 yarn install
+yarn build
 yarn run start:dev
 ```
 
