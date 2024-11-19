@@ -7,7 +7,7 @@
 ### Nestjs side
 
 ```typescript
-import { Loader, Action, useAction, useLoader } from "nestjs-remix";
+import { Loader, Action, useServer } from "nestjs-remix";
 
 @Injectable()
 export class IndexBackend {
@@ -34,11 +34,8 @@ export class IndexBackend {
   }
 }
 
-export const useIndexLoader = (args: LoaderFunctionArgs) =>
-  useLoader(IndexBackend)(args);
-
-export const useIndexAction = (args: ActionFunctionArgs) =>
-  useAction(IndexBackend)(args);
+export const useIndexServer = (args: LoaderFunctionArgs) =>
+  useServer(IndexBackend)(args);
 ```
 
 ### Remix side
@@ -46,8 +43,7 @@ export const useIndexAction = (args: ActionFunctionArgs) =>
 ```typescript
 import {
   type IndexBackend,
-  useIndexLoader,
-  useIndexAction,
+  useIndexServer,
 } from './server/index.server';
 import {
   useActionData,
@@ -55,11 +51,11 @@ import {
 } from 'nestjs-remix/client';
 
 export const loader: LoaderFunction = (...args) => {
-  return useIndexLoader(...args);
+  return useIndexServer(...args);
 };
 
 export const action: ActionFunction = (...args) => {
-  return useIndexAction(...args);
+  return useIndexServer(...args);
 };
 
 export default function Index() {
