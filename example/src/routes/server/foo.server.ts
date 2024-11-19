@@ -1,6 +1,6 @@
 import { Injectable, Req, UseGuards } from '@nestjs/common';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { Loader, Action, useAction, useLoader } from 'nestjs-remix';
+import { Loader, Action, useServer } from 'nestjs-remix';
 import { AppService } from '~/modules/app/app.service';
 import { UserAuthGuard } from '~/common/user.auth.guard';
 
@@ -25,8 +25,5 @@ export class FooBackend {
   }
 }
 
-export const useFooLoader = (args: LoaderFunctionArgs) =>
-  useLoader(FooBackend)(args);
-
-export const useFooAction = (args: ActionFunctionArgs) =>
-  useAction(FooBackend)(args);
+export const useFooServer = (args: LoaderFunctionArgs) =>
+  useServer(FooBackend)(args);

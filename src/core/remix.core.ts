@@ -13,14 +13,13 @@ import { ExternalContextCreator } from "@nestjs/core";
 import { RequestMethod } from "@nestjs/common/enums";
 import { IS_DEV, isConstructor } from "./remix.helper";
 import { remixMiddleware } from "./remix.middleware";
-import { defaultRemixConfig } from "index";
+import { defaultRemixConfig, RemixException } from "index";
 import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
 import { RemixRouteParamsFactory } from "./remix.route.params.factory";
 import bodyParser from "body-parser";
 
 export enum RemixProperty {
   Loader = "Loader",
-  ActionAll = "Action",
   ActionPost = "Action.Post",
   ActionPut = "Action.Put",
   ActionPatch = "Action.Patch",
@@ -57,15 +56,12 @@ const getPropertyNameByRequest = (
       return [RemixProperty.ActionHead, RequestMethod.HEAD];
     case "SEARCH":
       return [RemixProperty.ActionSearch, RequestMethod.SEARCH];
-    default:
-      return [RemixProperty.ActionAll, RequestMethod.ALL];
   }
 };
 
 type RemixDescriptor = Partial<{
   [key in RemixProperty]: string;
 }>;
-
 
 export const setRemixTypeDescriptor = (
   type: Type,
@@ -88,28 +84,11 @@ type ReturnFunction = LoaderFunction | ActionFunction;
 
 const useDecorator = (
   typeOrDescriptor: Type | RemixDescriptor,
-  property: RemixProperty,
   typeName?: string
 ): ReturnFunction => {
   if (isConstructor(typeOrDescriptor)) {
     const descriptor = getRemixTypeDescriptor(typeOrDescriptor);
-    let hasProperty = true;
-    if (property === RemixProperty.Loader) {
-      hasProperty = !!descriptor?.[RemixProperty.Loader];
-    } else {
-      hasProperty =
-        !!descriptor?.[property] || !!descriptor?.[RemixProperty.ActionAll];
-    }
-    if (!descriptor || !hasProperty) {
-      throw new Error(
-        `No method found using @${property} decorator on class ${typeOrDescriptor.name}`
-      );
-    }
-    return useDecorator(
-      descriptor,
-      property,
-      typeName ?? typeOrDescriptor.name
-    );
+    return useDecorator(descriptor, typeName ?? typeOrDescriptor.name);
   }
   return async (args: LoaderFunctionArgs | ActionFunctionArgs) => {
     const { moduleRef, req, res, next } = args.context as RemixLoadContext;
@@ -120,11 +99,13 @@ const useDecorator = (
     const [requestProperty, requestMethod] = getPropertyNameByRequest(
       args.context.req as Request
     );
-    if (property !== RemixProperty.Loader) {
-      property = requestProperty;
+    const methodName = typeOrDescriptor[requestProperty];
+
+    if (!methodName) {
+      return new RemixException(
+        `No method found using @${requestProperty} decorator on class ${providerName}`
+      ).toResponse();
     }
-    const methodName =
-      typeOrDescriptor[property] ?? typeOrDescriptor[RemixProperty.ActionAll]!;
 
     const _remixExecutionContextCreator: ExternalContextCreator =
       remixExecutionContextCreator ?? global.remixExecutionContext;
@@ -179,7 +160,13 @@ export const startNestRemix = async (
   }
 };
 
-export const useLoader = (type: Type) =>
-  useDecorator(type, RemixProperty.Loader) as LoaderFunction;
-export const useAction = (type: Type) =>
-  useDecorator(type, RemixProperty.ActionAll) as ActionFunction;
+/**
+ * @deprecated Use `useServer()` instead.
+ */
+export const useLoader = (type: Type) => useDecorator(type) as LoaderFunction;
+/**
+ * @deprecated Use `useServer()` instead.
+ */
+export const useAction = (type: Type) => useDecorator(type) as ActionFunction;
+export const useServer = (type: Type) =>
+  useDecorator(type) as LoaderFunction | ActionFunction;

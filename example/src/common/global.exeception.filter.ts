@@ -7,6 +7,7 @@ import {
   HttpExceptionBodyMessage,
 } from '@nestjs/common';
 import { GlobalResponse } from './global.response';
+import { RemixException } from 'nestjs-remix';
 
 const IS_PRODUCTION_ENV = process.env.NODE_ENV === 'production';
 const SYS_INTER_EXCEPTION_MSG = 'System internal exception';
@@ -38,7 +39,17 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     // Judge is handled by remix
     if (request.handleByRemix) {
-      throw exception;
+      if (exception instanceof Response) {
+        throw exception;
+      } else if (exception instanceof RemixException) {
+        throw exception.toResponse();
+      } else {
+        throw new RemixException(
+          process.env.NODE_ENV === 'production'
+            ? 'Internal Server Error'
+            : exception.message,
+        ).toResponse();
+      }
     }
 
     const errorResponse = new GlobalResponse(

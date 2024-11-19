@@ -1,4 +1,5 @@
 import type { MetaFunction } from '@remix-run/node';
+import type { RemixError } from 'nestjs-remix/client';
 import {
   Link,
   Links,
@@ -7,7 +8,6 @@ import {
   Scripts,
   useRouteError,
 } from '@remix-run/react';
-import { useMemo } from 'react';
 
 export const meta: MetaFunction = () => [
   {
@@ -34,19 +34,8 @@ export default function App() {
   );
 }
 
-interface HttpError {
-  data: {
-    message?: string;
-    code?: number;
-    success?: false;
-  };
-  internal: boolean;
-  status: number;
-  statusText: string;
-}
-
 export function ErrorBoundary() {
-  const error = useRouteError() as HttpError;
+  const error = useRouteError() as RemixError;
   return (
     <html>
       <head>

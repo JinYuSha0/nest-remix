@@ -1,18 +1,14 @@
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { useActionData, useLoaderData } from '@remix-run/react';
-import {
-  useFooLoader,
-  useFooAction,
-  type FooBackend,
-} from './server/foo.server';
+import { type FooBackend, useFooServer } from './server/foo.server';
 import { usePromiseSubmit } from 'nestjs-remix/client';
 
 export const loader: LoaderFunction = (...args) => {
-  return useFooLoader(...args);
+  return useFooServer(...args);
 };
 
 export const action: ActionFunction = (...args) => {
-  return useFooAction(...args);
+  return useFooServer(...args);
 };
 
 export default function Index() {

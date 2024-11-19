@@ -3,6 +3,7 @@ import {
   useLoaderData as useRemixLoaderData,
   useActionData as useRemixActionData,
 } from "@remix-run/react";
+export type { RemixError } from "./core/remix.exceptions";
 export { usePromiseSubmit } from "./client/usePromiseSubmit";
 
 export type AnyFunction = (...args: any) => any;

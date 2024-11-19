@@ -4,7 +4,7 @@ import {
   type LoaderFunctionArgs,
 } from '@remix-run/node';
 import { Body, Injectable, Query, Req } from '@nestjs/common';
-import { Loader, Action, RemixArgs, useAction, useLoader } from 'nestjs-remix';
+import { Loader, Action, RemixArgs, useServer } from 'nestjs-remix';
 import { AppService } from '~/modules/app/app.service';
 import { LoginDto } from '~/modules/app/dto/login.dto';
 import { Test } from '~/common/test.decorator';
@@ -44,8 +44,5 @@ export class IndexBackend {
   }
 }
 
-export const useIndexLoader = (args: LoaderFunctionArgs) =>
-  useLoader(IndexBackend)(args);
-
-export const useIndexAction = (args: ActionFunctionArgs) =>
-  useAction(IndexBackend)(args);
+export const useIndexServer = (args: ActionFunctionArgs) =>
+  useServer(IndexBackend)(args);

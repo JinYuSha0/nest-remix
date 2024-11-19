@@ -24,19 +24,21 @@ export const RemixArgs = createRouteParamDecorator(
   RemixRouteParamtypes.REMIX_ARGS
 );
 
-function Decorator(property: RemixProperty) {
+function Decorator(...properties: RemixProperty[]) {
   return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const type = target.constructor;
     if (!isConstructor(type)) {
       return;
     }
-    setRemixTypeDescriptor(type, propertyKey, property);
+    for (const property of properties) {
+      setRemixTypeDescriptor(type, propertyKey, property);
+    }
   };
 }
 
 export const Loader = () => Decorator(RemixProperty.Loader);
 export function Action() {
-  return Decorator(RemixProperty.ActionAll);
+  return Decorator(RemixProperty.ActionPost);
 }
 Action.Post = () => Action;
 Action.Put = () => Decorator(RemixProperty.ActionPut);

@@ -14,6 +14,9 @@ export {
   startNestRemix,
   useAction,
   useLoader,
+  useServer,
+  type RemixError,
+  RemixException,
 } from "./server";
 
 export interface RemixLoadContext extends AppLoadContext {

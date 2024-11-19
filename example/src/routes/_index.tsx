@@ -1,10 +1,6 @@
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { Form, useRevalidator } from '@remix-run/react';
-import {
-  type IndexBackend,
-  useIndexLoader,
-  useIndexAction,
-} from './server/index.server';
+import { type IndexBackend, useIndexServer } from './server/index.server';
 import {
   useActionData,
   useLoaderData,
@@ -12,11 +8,11 @@ import {
 } from 'nestjs-remix/client';
 
 export const loader: LoaderFunction = (...args) => {
-  return useIndexLoader(...args);
+  return useIndexServer(...args);
 };
 
 export const action: ActionFunction = (...args) => {
-  return useIndexAction(...args);
+  return useIndexServer(...args);
 };
 
 export default function Index() {
@@ -47,7 +43,7 @@ export default function Index() {
           PATCH
         </button>
         <button
-          onClick={syncAlert(deleted.bind(null, null, { method: 'DELETE' }))}
+          onClick={syncAlert(deleted.bind(null, null, { method: 'PUT' }))}
         >
           DELETE
         </button>
