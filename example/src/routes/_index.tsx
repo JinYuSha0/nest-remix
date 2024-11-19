@@ -43,7 +43,7 @@ export default function Index() {
           PATCH
         </button>
         <button
-          onClick={syncAlert(deleted.bind(null, null, { method: 'PUT' }))}
+          onClick={syncAlert(deleted.bind(null, null, { method: 'DELETE' }))}
         >
           DELETE
         </button>
