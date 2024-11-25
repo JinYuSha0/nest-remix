@@ -12,8 +12,8 @@
     "build:router": "nest build -p tsconfig.build.router.json",
     "build:remix": "nest build -p tsconfig.build.remix.json",
     "publish": "npm-run-all --parallel publish:router publish:remix",
-    "publish:router": "cd nest-react-router && npm publish --provenance --access public",
-    "publish:remix": "cd nestjs-remix && npm publish --provenance --access public",
+    "publish:router": "cd packages/nest-react-router && npm publish --provenance --access public",
+    "publish:remix": "cd packages/nestjs-remix && npm publish --provenance --access public",
     "postinstall": "npm run build",
     "prepare": "husky",
     "synchronous-version": "node ./synchronous-version.js"
