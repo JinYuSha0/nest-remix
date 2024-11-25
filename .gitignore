@@ -4,6 +4,7 @@ packages/nestjs-remix/*
 !packages/nestjs-remix/package.json
 packages/nest-react-router/*
 !packages/nest-react-router/package.json
+example/vite.config.mts.*
 
 # lock file
 *.lock

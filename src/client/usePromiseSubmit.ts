@@ -1,6 +1,6 @@
 import type { ActionReturnType, AnyFunction } from "../client";
 import { useEffect, useRef, useState, useCallback } from "react";
-import { useActionData, useNavigation, useSubmit } from "react-router";
+import { useActionData, useSubmit } from "react-router";
 import { deferred } from "./helper";
 import { serialize } from "object-to-formdata";
 
@@ -20,7 +20,6 @@ export function usePromiseSubmit<
 ] {
   const { delay = 0 } = options ?? {};
   const submit = useSubmit();
-  const navigation = useNavigation();
   const actionData = useActionData<P>();
   const $deferred = useRef(deferred<P>());
   const nextCanActiveTs = useRef<number>();
@@ -41,7 +40,7 @@ export function usePromiseSubmit<
     [submit]
   );
   useEffect(() => {
-    if (navigation.state === "idle" && actionData) {
+    if (actionData) {
       function resolve() {
         $deferred.current.resolve(actionData as P);
         $deferred.current = deferred();
@@ -53,6 +52,6 @@ export function usePromiseSubmit<
         resolve();
       }
     }
-  }, [navigation.state, actionData]);
+  }, [actionData]);
   return [_submit, loading];
 }

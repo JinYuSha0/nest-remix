@@ -1,4 +1,8 @@
-import type { ActionFunction, LoaderFunction } from 'react-router';
+import type {
+  ActionFunction,
+  LoaderFunction,
+  ShouldRevalidateFunction,
+} from 'react-router';
 import { Form, useRevalidator, Await } from 'react-router';
 import { type IndexBackend, useIndexServer } from './server/index.server';
 import {
@@ -14,6 +18,10 @@ export const loader: LoaderFunction = (args) => {
 
 export const action: ActionFunction = (args) => {
   return useIndexServer(args);
+};
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({ formMethod }) => {
+  return !formMethod || formMethod === 'GET';
 };
 
 export default function Index() {

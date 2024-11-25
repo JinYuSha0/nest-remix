@@ -19,7 +19,7 @@ export class IndexBackend {
     return {
       message: this.appService.getHello(name) + ', now: ' + Date.now(),
       loadData: new Promise<string>((res) => {
-        setTimeout(() => res('loaded success'), 2000);
+        setTimeout(() => res(`loaded success, now: ${Date.now()}`), 2000);
       }),
     };
   }
