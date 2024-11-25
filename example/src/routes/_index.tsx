@@ -1,11 +1,12 @@
 import type { ActionFunction, LoaderFunction } from 'react-router';
-import { Form, useRevalidator } from 'react-router';
+import { Form, useRevalidator, Await } from 'react-router';
 import { type IndexBackend, useIndexServer } from './server/index.server';
 import {
   useActionData,
   useLoaderData,
   usePromiseSubmit,
 } from 'nest-react-router/client';
+import { Suspense } from 'react';
 
 export const loader: LoaderFunction = (args) => {
   return useIndexServer(args);
@@ -16,7 +17,7 @@ export const action: ActionFunction = (args) => {
 };
 
 export default function Index() {
-  const data = useLoaderData<IndexBackend>();
+  const { message, loadData } = useLoaderData<IndexBackend>() ?? {};
   const actionData = useActionData<IndexBackend>();
   const revalidator = useRevalidator();
   const [patch] = usePromiseSubmit<IndexBackend, 'patch'>();
@@ -31,7 +32,7 @@ export default function Index() {
     <div>
       <div>
         <h2>Loader data</h2>
-        <p>{data.message}</p>
+        <p>{message}</p>
         <button onClick={() => revalidator.revalidate()}>GET</button>
       </div>
       <br />
@@ -47,6 +48,13 @@ export default function Index() {
         >
           DELETE
         </button>
+      </div>
+      <br />
+      <div>
+        <h2>Defer data</h2>
+        <Suspense fallback={<span>loading...</span>}>
+          <Await resolve={loadData}>{(data) => <span>{data}</span>}</Await>
+        </Suspense>
       </div>
       <br />
       <div>
