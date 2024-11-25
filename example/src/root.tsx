@@ -1,13 +1,6 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from 'react-router';
 import type { RemixError } from 'nestjs-remix/client';
-import {
-  Link,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  useRouteError,
-} from '@remix-run/react';
+import { Link, Links, Meta, Outlet, Scripts, useRouteError } from 'react-router';
 
 export const meta: MetaFunction = () => [
   {

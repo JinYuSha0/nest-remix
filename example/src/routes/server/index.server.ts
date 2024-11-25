@@ -1,8 +1,4 @@
-import {
-  redirect,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-} from '@remix-run/node';
+import { redirect, type ActionFunctionArgs, type LoaderFunctionArgs } from 'react-router';
 import { Body, Injectable, Query, Req } from '@nestjs/common';
 import { Loader, Action, RemixArgs, useServer } from 'nestjs-remix';
 import { AppService } from '~/modules/app/app.service';
@@ -44,5 +40,4 @@ export class IndexBackend {
   }
 }
 
-export const useIndexServer = (args: ActionFunctionArgs) =>
-  useServer(IndexBackend)(args);
+export const useIndexServer = useServer(IndexBackend)

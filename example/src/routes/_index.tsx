@@ -1,5 +1,5 @@
-import type { ActionFunction, LoaderFunction } from '@remix-run/node';
-import { Form, useRevalidator } from '@remix-run/react';
+import type { ActionFunction, LoaderFunction } from 'react-router';
+import { Form, useRevalidator } from 'react-router';
 import { type IndexBackend, useIndexServer } from './server/index.server';
 import {
   useActionData,

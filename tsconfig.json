@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "./nestjs-remix",
     "rootDirs": ["./src"],
     "baseUrl": "./src",
-    "module": "commonjs",
-    "target": "esnext",
+    "module": "ESNext",
+    "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ES2017"],
     "sourceMap": true,
     "allowJs": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": false,
     "noImplicitThis": false,

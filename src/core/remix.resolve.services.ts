@@ -1,7 +1,7 @@
 import { INJECTABLE_WATERMARK } from "@nestjs/common/constants";
+import { RemixService } from "./remix.service";
 import * as path from "path";
 import fs from "fs";
-import { RemixService } from "./remix.service";
 
 // Related link: https://vite.dev/guide/features#dynamic-import
 function hackDynamicImport(file: string) {

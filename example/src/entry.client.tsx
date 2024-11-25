@@ -1,4 +1,4 @@
-import { RemixBrowser } from '@remix-run/react';
+import { HydratedRouter } from 'react-router/dom';
 import { startTransition, useEffect } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 
@@ -48,7 +48,7 @@ function hydrate() {
     hydrateRoot(
       document,
       <Mount onMount={recover}>
-        <RemixBrowser />
+        <HydratedRouter />
       </Mount>,
     );
   });

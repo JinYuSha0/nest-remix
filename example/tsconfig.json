@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "bundler",
     "noEmitOnError": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
@@ -15,17 +18,14 @@
     "paths": {
       "~/*": ["./src/*"]
     },
-    "lib": ["es2019", "esnext.asynciterable", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
+    "lib": ["ESNext", "esnext.asynciterable", "DOM", "DOM.Iterable"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2019",
     "allowJs": true,
-    "moduleResolution": "node",
     "noEmit": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true
   },
-  "include": ["src", "app.env.d.ts", "vite.config.mts"],
+  "include": ["src/**/*", ".react-router/types/**/*", "vite.config.mts"],
   "exclude": ["build", "scripts", "dist", "test", "node_modules"]
 }

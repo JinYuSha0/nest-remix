@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "concurrently \"npm run build:nest\" \"npm run build:remix\" -n \"NEST,REMIX\"",
+    "build": "concurrently \"npm run build:nest\" \"npm run build:react-router\" -n \"NEST,REACT-ROUTER\"",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "cross-env NODE_ENV=development concurrently \"npm run start:dev:nest\" -n \"NEST\"",
@@ -18,9 +18,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "build:nest": "rimraf dist && nest build -p tsconfig.nest.json",
-    "build:remix": "rimraf build && remix vite:build",
-    "start:dev:nest": "rimraf dist && nest start --watch -p tsconfig.nest.json",
-    "start:dev:remix": "rimraf build && concurrently \"remix watch\""
+    "build:react-router": "rimraf build && react-router build",
+    "start:dev:nest": "rimraf dist && nest start --watch -p tsconfig.nest.json"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.8",
@@ -28,14 +27,15 @@
     "@nestjs/platform-express": "^10.3.8",
     "@nestjs/serve-static": "^4.0.2",
     "@nestjs/swagger": "^7.3.1",
-    "@remix-run/express": "^2.9.2",
-    "@remix-run/node": "^2.9.2",
-    "@remix-run/react": "^2.9.2",
-    "@remix-run/serve": "^2.9.2",
+    "@react-router/express": "^7.0.0",
+    "@react-router/fs-routes": "^7.0.1",
+    "@react-router/node": "^7.0.0",
+    "@react-router/serve": "^7.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-router": "^7.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
@@ -43,8 +43,7 @@
     "@nestjs/cli": "^10.3.2",
     "@nestjs/schematics": "^10.1.1",
     "@nestjs/testing": "^10.3.8",
-    "@remix-run/dev": "^2.9.2",
-    "@remix-run/eslint-config": "^2.9.2",
+    "@react-router/dev": "^7.0.0",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.12",
@@ -67,18 +66,14 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2",
-    "vite": "^5.4.10",
+    "vite": "^5.4.11",
     "vite-plugin-commonjs": "^0.10.3",
-    "vite-tsconfig-paths": "^5.0.1"
+    "vite-tsconfig-paths": "^5.1.3"
   },
   "peerDependencies": {
     "@nestjs/common": "^10.3.8",
     "@nestjs/core": "^10.3.8",
     "@nestjs/serve-static": "^4.0.2",
-    "@remix-run/express": "^2.9.2",
-    "@remix-run/node": "^2.9.2",
-    "@remix-run/react": "^2.9.2",
-    "@remix-run/serve": "^2.9.2",
     "express-serve-static-core": "^0.1.1",
     "reflect-metadata": "^0.2.2"
   },
