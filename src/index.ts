@@ -1,6 +1,5 @@
-import type { Params } from "@remix-run/react";
-import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
-import type { AppLoadContext } from "@remix-run/server-runtime/dist/data.d";
+import type { AppLoadContext, Params } from "react-router";
+import type { LoaderFunctionArgs, ActionFunctionArgs } from "react-router";
 import type { RemixService } from "core/remix.service";
 import type { ServeStaticOptions } from "@nestjs/platform-express/interfaces/serve-static-options.interface";
 import type * as core from "express-serve-static-core";

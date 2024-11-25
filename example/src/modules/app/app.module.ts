@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { resolve } from 'path';
-import { resolveRemixServices } from 'nestjs-remix';
+import { resolveRemixServices } from 'nest-react-router';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 

@@ -1,4 +1,4 @@
-import { RemixException } from 'nestjs-remix';
+import { RemixException } from 'nest-react-router';
 
 export const RemixUnauthorizedException = (message?: string) =>
   new RemixException(message ?? 'Unauthorized', 401);

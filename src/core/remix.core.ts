@@ -5,7 +5,7 @@ import type {
   ActionFunction,
   LoaderFunctionArgs,
   ActionFunctionArgs,
-} from "@remix-run/node";
+} from "react-router";
 import type { NestContainer } from "@nestjs/core/injector/container";
 import type { RemixLoadContext, RemixConfig } from "index";
 import type { ViteDevServer } from "vite";
@@ -168,5 +168,6 @@ export const useLoader = (type: Type) => useDecorator(type) as LoaderFunction;
  * @deprecated Use `useServer()` instead.
  */
 export const useAction = (type: Type) => useDecorator(type) as ActionFunction;
+
 export const useServer = (type: Type) =>
   useDecorator(type) as LoaderFunction | ActionFunction;

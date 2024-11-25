@@ -1,0 +1,54 @@
+{
+  "name": "nest-react-router",
+  "version": "1.0.0",
+  "description": "Using react-router in nest",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "keywords": [
+    "nest",
+    "nestjs",
+    "react",
+    "react-router"
+  ],
+  "homepage": "https://github.com/JinYuSha0/nest-remix",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JinYuSha0/nest-remix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JinYuSha0/nest-remix/issues"
+  },
+  "author": "JinYuSha0",
+  "license": "ISC",
+  "sideEffects": false,
+  "dependencies": {
+    "@nestjs/common": "^10.3.8",
+    "@nestjs/core": "^10.3.8",
+    "@nestjs/serve-static": "^4.0.2",
+    "@react-router/express": "^7.0.0",
+    "@react-router/node": "^7.0.0",
+    "@react-router/serve": "^7.0.0",
+    "await-import-dont-compile": "^0.0.1",
+    "express-serve-static-core": "^0.1.1",
+    "object-to-formdata": "^4.5.1",
+    "react-router": "^7.0.0",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.3.2",
+    "@types/node": "^20.12.12",
+    "typescript": "^5.2.2",
+    "vite": "^5.4.10"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^10.3.8",
+    "@nestjs/core": "^10.3.8",
+    "@nestjs/serve-static": "^4.0.2",
+    "@react-router/express": "^7.0.0",
+    "@react-router/node": "^7.0.0",
+    "@react-router/serve": "^7.0.0",
+    "express-serve-static-core": "^0.1.1",
+    "reflect-metadata": "^0.2.2",
+    "vite": "^5.4.10"
+  }
+}

@@ -1,5 +1,5 @@
-import type { MetaFunction } from '@remix-run/node';
-import type { RemixError } from 'nestjs-remix/client';
+import type { MetaFunction } from 'react-router';
+import type { RemixError } from 'nest-react-router/client';
 import {
   Link,
   Links,
@@ -7,7 +7,7 @@ import {
   Outlet,
   Scripts,
   useRouteError,
-} from '@remix-run/react';
+} from 'react-router';
 
 export const meta: MetaFunction = () => [
   {
@@ -20,7 +20,7 @@ export default function App() {
   return (
     <html lang="en">
       <head>
-        <title>nestjs-remix-demo</title>
+        <title>nest-react-router demo</title>
         <Meta />
         <Links />
       </head>
@@ -43,7 +43,7 @@ export function ErrorBoundary() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <div id="root">
           <h1>{error.data.code}</h1>
           <h2>{error.data.message}</h2>

@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./packages/nest-react-router",
+    "module": "CommonJS",
+    "declaration": true,
+    "moduleResolution": "node"
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "nestjs-remix",
+    "test",
+    "__test__",
+    "**/__test__/**/*",
+    "**/*spec.ts",
+    "**/*it.ts",
+    "**/*test.ts",
+    "**/*e2e.ts",
+    "**/*e2e-spec.ts"
+  ]
+}

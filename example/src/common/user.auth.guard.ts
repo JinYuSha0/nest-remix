@@ -1,4 +1,4 @@
-import { redirect } from '@remix-run/node';
+import { redirect } from 'react-router';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { AppService } from '~/modules/app/app.service';
