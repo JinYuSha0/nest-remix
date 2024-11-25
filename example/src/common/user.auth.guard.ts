@@ -2,7 +2,7 @@ import { redirect } from 'react-router';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { AppService } from '~/modules/app/app.service';
-import { RemixUnauthorizedException } from './remix.exceptions';
+import { ReactRouterUnauthorizedException } from './react-router.exceptions';
 
 @Injectable()
 export class UserAuthGuard implements CanActivate {
@@ -19,9 +19,13 @@ export class UserAuthGuard implements CanActivate {
     if (AppService.logged) {
       return true;
     }
-    if (this.redirectUrl != null && req.method === 'GET' && req.handleByRemix) {
+    if (
+      this.redirectUrl != null &&
+      req.method === 'GET' &&
+      req.handleByReactRouter
+    ) {
       throw redirect(this.redirectUrl);
     }
-    throw RemixUnauthorizedException();
+    throw ReactRouterUnauthorizedException();
   }
 }

@@ -1,6 +1,6 @@
 import { redirect, type LoaderFunctionArgs } from 'react-router';
 import { Body, Injectable, Query, Req } from '@nestjs/common';
-import { Loader, Action, RemixArgs, useServer } from 'nest-react-router';
+import { Loader, Action, ReactRouterArgs, useServer } from 'nest-react-router';
 import { AppService } from '~/modules/app/app.service';
 import { LoginDto } from '~/modules/app/dto/login.dto';
 import { Test } from '~/common/test.decorator';
@@ -11,7 +11,7 @@ export class IndexBackend {
 
   @Loader()
   loader(
-    @RemixArgs() args: LoaderFunctionArgs,
+    @ReactRouterArgs() args: LoaderFunctionArgs,
     @Req() req: Request,
     @Test() test: string,
     @Query('name') name?: string,
@@ -40,4 +40,5 @@ export class IndexBackend {
   }
 }
 
-export const useIndexServer = useServer(IndexBackend);
+export const useIndexServer = (args: LoaderFunctionArgs) =>
+  useServer(IndexBackend)(args);

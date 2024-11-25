@@ -7,13 +7,13 @@ import type {
   ActionFunctionArgs,
 } from "react-router";
 import type { NestContainer } from "@nestjs/core/injector/container";
-import type { RemixLoadContext, RemixConfig } from "index";
+import type { RemixLoadContext, ReactRouterConfig } from "index";
 import type { ViteDevServer } from "vite";
 import { ExternalContextCreator } from "@nestjs/core";
 import { RequestMethod } from "@nestjs/common/enums";
 import { IS_DEV, isConstructor } from "./remix.helper";
 import { remixMiddleware } from "./remix.middleware";
-import { defaultRemixConfig, RemixException } from "index";
+import { defaultRemixConfig, ReactRouterException } from "index";
 import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
 import { RemixRouteParamsFactory } from "./remix.route.params.factory";
 import bodyParser from "body-parser";
@@ -92,8 +92,8 @@ const useDecorator = (
   }
   return async (args: LoaderFunctionArgs | ActionFunctionArgs) => {
     const { moduleRef, req, res, next } = args.context as RemixLoadContext;
-    req.remixArgs = args;
-    req.remixParams = args.params;
+    req.reactRouterArgs = args;
+    req.reactRouterParams = args.params;
     const providerName = getProviderName(typeName);
     const instance = moduleRef.get(providerName);
     const [requestProperty, requestMethod] = getPropertyNameByRequest(
@@ -102,7 +102,7 @@ const useDecorator = (
     const methodName = typeOrDescriptor[requestProperty];
 
     if (!methodName) {
-      return new RemixException(
+      return new ReactRouterException(
         `No method found using @${requestProperty} decorator on class ${providerName}`
       ).toResponse();
     }
@@ -122,15 +122,12 @@ const useDecorator = (
   };
 };
 
-export const startNestRemix = async (
+export const startNestReactRouter = async (
   app: NestApplication,
-  remixConfig: RemixConfig = defaultRemixConfig
+  remixConfig: ReactRouterConfig = defaultRemixConfig
 ) => {
   // client static file middleware
-  app.useStaticAssets(
-    remixConfig.remixClientDir,
-    remixConfig.remixClientFileOptions
-  );
+  app.useStaticAssets(remixConfig.clientDir, remixConfig.clientFileOptions);
 
   // vite middleware (DEV only)
   if (IS_DEV) {

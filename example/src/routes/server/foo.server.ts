@@ -1,3 +1,4 @@
+import type { LoaderFunctionArgs } from 'react-router';
 import { Injectable, Req, UseGuards } from '@nestjs/common';
 import { Loader, Action, useServer } from 'nest-react-router';
 import { AppService } from '~/modules/app/app.service';
@@ -24,4 +25,5 @@ export class FooBackend {
   }
 }
 
-export const useFooServer = useServer(FooBackend);
+export const useFooServer = (args: LoaderFunctionArgs) =>
+  useServer(FooBackend)(args);

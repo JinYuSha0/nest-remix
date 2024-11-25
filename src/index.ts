@@ -6,16 +6,21 @@ import type * as core from "express-serve-static-core";
 import path from "path";
 
 export {
-  resolveRemixServices,
   Loader,
   Action,
-  RemixArgs,
-  startNestRemix,
   useAction,
   useLoader,
   useServer,
-  type RemixError,
-  RemixException,
+  ReactRouterArgs,
+  ReactRouterArgs as RemixArgs,
+  resolveReactRouterServices,
+  resolveReactRouterServices as resolveRemixServices,
+  startNestReactRouter,
+  startNestReactRouter as startNestRemix,
+  type ReactRouterError,
+  ReactRouterException,
+  type ReactRouterError as RemixError,
+  ReactRouterException as RemixException,
 } from "./server";
 
 export interface RemixLoadContext extends AppLoadContext {
@@ -26,24 +31,24 @@ export interface RemixLoadContext extends AppLoadContext {
   next: NextFunction;
 }
 
-export type RemixConfig = {
-  remixClientDir: string;
-  remixServerFile: string;
-  remixClientFileOptions: ServeStaticOptions;
+export type ReactRouterConfig = {
+  clientDir: string;
+  serverFile: string;
+  clientFileOptions: ServeStaticOptions;
 };
 
-export const defaultRemixConfig: RemixConfig = {
-  remixClientDir: path.join(process.cwd(), "/build/client"),
-  remixServerFile: path.join(process.cwd(), "/build/server/index.mjs"),
-  remixClientFileOptions: { immutable: true, maxAge: "1d" },
+export const defaultRemixConfig: ReactRouterConfig = {
+  clientDir: path.join(process.cwd(), "/build/client"),
+  serverFile: path.join(process.cwd(), "/build/server/index.mjs"),
+  clientFileOptions: { immutable: true, maxAge: "1d" },
 };
 
 declare global {
   namespace Express {
     interface Request {
-      handleByRemix?: boolean;
-      remixArgs?: LoaderFunctionArgs | ActionFunctionArgs;
-      remixParams?: Params;
+      handleByReactRouter?: boolean;
+      reactRouterArgs?: LoaderFunctionArgs | ActionFunctionArgs;
+      reactRouterParams?: Params;
     }
   }
 
