@@ -1,12 +1,9 @@
 # compiled output
 /node_modules
-/nestjs-remix/cli/
-/nestjs-remix/core/
-/nestjs-remix/client/
-/nestjs-remix/*.d.ts
-/nestjs-remix/*.js
-/nestjs-remix/*.js.map
-/nestjs-remix/node_modules
+packages/nestjs-remix/*
+!packages/nestjs-remix/package.json
+packages/nest-react-router/*
+!packages/nest-react-router/package.json
 
 # lock file
 *.lock

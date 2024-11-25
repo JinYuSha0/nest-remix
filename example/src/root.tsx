@@ -1,5 +1,5 @@
 import type { MetaFunction } from 'react-router';
-import type { RemixError } from 'nestjs-remix/client';
+import type { RemixError } from 'nest-react-router/client';
 import {
   Link,
   Links,
@@ -20,7 +20,7 @@ export default function App() {
   return (
     <html lang="en">
       <head>
-        <title>nestjs-remix-demo</title>
+        <title>nest-react-router demo</title>
         <Meta />
         <Links />
       </head>

@@ -1,5 +1,5 @@
 import { Injectable, Req, UseGuards } from '@nestjs/common';
-import { Loader, Action, useServer } from 'nestjs-remix';
+import { Loader, Action, useServer } from 'nest-react-router';
 import { AppService } from '~/modules/app/app.service';
 import { UserAuthGuard } from '~/common/user.auth.guard';
 

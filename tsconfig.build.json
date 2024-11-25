@@ -1,9 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./nestjs-remix",
-    "module": "CommonJS",
-    "declaration": true,
-    "moduleResolution": "node"
-  }
-}

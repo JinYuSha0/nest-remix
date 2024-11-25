@@ -1,6 +1,6 @@
 {
   "name": "nestjs-remix",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0",
   "description": "Using remix in nestjs",
   "main": "index.js",
   "types": "index.d.ts",
@@ -8,17 +8,29 @@
   "sideEffects": false,
   "scripts": {
     "start:dev": "cd example && npm run start:dev",
-    "build": "nest build",
-    "pack": "npm run build",
-    "publish": "npm run pack && cd nestjs-remix && npm publish --provenance --access public"
+    "build": "npm-run-all --parallel build:router build:remix",
+    "build:router": "nest build -p tsconfig.build.router.json",
+    "build:remix": "nest build -p tsconfig.build.remix.json",
+    "publish": "npm-run-all --parallel publish:router publish:remix",
+    "publish:router": "cd nest-react-router && npm publish --provenance --access public",
+    "publish:remix": "cd nestjs-remix && npm publish --provenance --access public",
+    "postinstall": "npm run build",
+    "prepare": "husky",
+    "synchronous-version": "node ./synchronous-version.js"
   },
   "workspaces": [
     "example",
-    "nestjs-remix"
+    "packages/nest-react-router",
+    "packages/nestjs-remix"
   ],
+  "lint-staged": {
+    "*": "npm run synchronous-version"
+  },
   "keywords": [
+    "nest",
     "nestjs",
-    "remix"
+    "remix",
+    "react-router"
   ],
   "homepage": "https://github.com/JinYuSha0/nest-remix",
   "repository": {
@@ -55,6 +67,9 @@
     "@nestjs/cli": "^10.4.8",
     "@testing-library/react": "^15.0.7",
     "@types/node": "^20.12.12",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
+    "npm-run-all": "^4.1.5",
     "typescript": "^5.2.2",
     "vite": "^5.4.11"
   },

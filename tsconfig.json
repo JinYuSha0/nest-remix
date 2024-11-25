@@ -26,6 +26,7 @@
   "exclude": [
     "node_modules",
     "nestjs-remix",
+    "nest-react-router",
     "test",
     "__test__",
     "**/__test__/**/*",

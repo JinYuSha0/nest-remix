@@ -1,7 +1,7 @@
 import type { ActionFunction, LoaderFunction } from 'react-router';
-import { useLoaderData } from 'nestjs-remix/client';
+import { useLoaderData } from 'nest-react-router/client';
 import { type FooBackend, useFooServer } from './server/foo.server';
-import { usePromiseSubmit } from 'nestjs-remix/client';
+import { usePromiseSubmit } from 'nest-react-router/client';
 
 export const loader: LoaderFunction = (args) => {
   return useFooServer(args);

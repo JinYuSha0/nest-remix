@@ -5,7 +5,7 @@ import {
   useActionData,
   useLoaderData,
   usePromiseSubmit,
-} from 'nestjs-remix/client';
+} from 'nest-react-router/client';
 
 export const loader: LoaderFunction = (args) => {
   return useIndexServer(args);

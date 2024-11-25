@@ -7,7 +7,7 @@ import {
   HttpExceptionBodyMessage,
 } from '@nestjs/common';
 import { GlobalResponse } from './global.response';
-import { RemixException } from 'nestjs-remix';
+import { RemixException } from 'nest-react-router';
 
 const IS_PRODUCTION_ENV = process.env.NODE_ENV === 'production';
 const SYS_INTER_EXCEPTION_MSG = 'System internal exception';
