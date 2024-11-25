@@ -7,12 +7,12 @@ import {
   usePromiseSubmit,
 } from 'nestjs-remix/client';
 
-export const loader: LoaderFunction = (...args) => {
-  return useIndexServer(...args);
+export const loader: LoaderFunction = (args) => {
+  return useIndexServer(args);
 };
 
-export const action: ActionFunction = (...args) => {
-  return useIndexServer(...args);
+export const action: ActionFunction = (args) => {
+  return useIndexServer(args);
 };
 
 export default function Index() {

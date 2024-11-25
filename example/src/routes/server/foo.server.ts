@@ -1,4 +1,3 @@
-import type { LoaderFunctionArgs } from 'react-router';
 import { Injectable, Req, UseGuards } from '@nestjs/common';
 import { Loader, Action, useServer } from 'nestjs-remix';
 import { AppService } from '~/modules/app/app.service';

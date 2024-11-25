@@ -1,21 +1,53 @@
-import type { EntryContext } from 'react-router';
+import type { AppLoadContext, EntryContext } from 'react-router';
 import { ServerRouter } from 'react-router';
-import { renderToString } from 'react-dom/server';
+import { isbot } from 'isbot';
+import { PassThrough } from 'stream';
+import { renderToPipeableStream } from 'react-dom/server';
+import { createReadableStreamFromReadable } from '@react-router/node';
 
-export default function handleRequest(
+const ABORT_DELAY = 5000;
+
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  reactRouterContext: EntryContext,
+  routerContext: EntryContext,
+  _loadContext: AppLoadContext,
 ) {
-  const markup = renderToString(
-    <ServerRouter context={reactRouterContext} url={request.url} />,
-  );
+  const callbackName = isbot(request.headers.get('user-agent'))
+    ? 'onAllReady'
+    : 'onShellReady';
 
-  responseHeaders.set('Content-Type', 'text/html');
+  return new Promise((resolve, reject) => {
+    let didError = false;
+    const { pipe, abort } = renderToPipeableStream(
+      <ServerRouter context={routerContext} url={request.url} />,
+      {
+        [callbackName]: () => {
+          const body = new PassThrough();
+          const stream = createReadableStreamFromReadable(body);
+          responseHeaders.set('Content-Type', 'text/html');
 
-  return new Response('<!DOCTYPE html>' + markup, {
-    status: responseStatusCode,
-    headers: responseHeaders,
+          resolve(
+            new Response(stream, {
+              headers: responseHeaders,
+              status: didError ? 500 : responseStatusCode,
+            }),
+          );
+
+          pipe(body);
+        },
+        onShellError(error: unknown) {
+          reject(error);
+        },
+        onError(error: unknown) {
+          didError = true;
+
+          console.error(error);
+        },
+      },
+    );
+
+    setTimeout(abort, ABORT_DELAY);
   });
 }

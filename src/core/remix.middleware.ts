@@ -38,7 +38,21 @@ export const remixMiddleware = async (
         routes = createRoutes(build.routes);
       }
 
-      if (matchServerRoutes(routes, req.url, build.basename)) {
+      const manifestUrl = `${build.basename ?? "/"}/__manifest`.replace(
+        /\/+/g,
+        "/"
+      );
+
+      if (
+        matchServerRoutes(routes, req.url, build.basename) ||
+        req.path === manifestUrl ||
+        (req.path.endsWith(".data") &&
+          matchServerRoutes(
+            routes,
+            req.path.replace(/\.data$/, "").replace(/^\/_root$/, "/"),
+            build.basename
+          ))
+      ) {
         // Mark this request to be handled by remix
         req.handleByRemix = true;
         const getLoadContext: GetLoadContextFunction = (req) => {

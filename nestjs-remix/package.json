@@ -42,10 +42,9 @@
     "@nestjs/common": "^10.3.8",
     "@nestjs/core": "^10.3.8",
     "@nestjs/serve-static": "^4.0.2",
-    "@remix-run/express": "^2.9.2",
-    "@remix-run/node": "^2.9.2",
-    "@remix-run/react": "^2.9.2",
-    "@remix-run/serve": "^2.9.2",
+    "@react-router/express": "^7.0.0",
+    "@react-router/node": "^7.0.0",
+    "@react-router/serve": "^7.0.0",
     "express-serve-static-core": "^0.1.1",
     "reflect-metadata": "^0.2.2",
     "vite": "^5.4.10"
