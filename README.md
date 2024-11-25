@@ -1,6 +1,30 @@
 # Welcome to nest-react-router!
 
+<div align="center">
+<a href="https://www.npmjs.com/package/nest-react-router"><img src="https://img.shields.io/npm/v/nest-react-router.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/package/nest-react-router"><img src="https://img.shields.io/npm/l/nest-react-router.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/package/nest-react-router"><img src="https://img.shields.io/npm/dm/nestjs-remix.svg" alt="NPM Downloads" /></a>
+</div>
+
 <center>A library that connects nest and react-router v7, use react-router as the view layer of nest</center>
+
+## Now, migrate to react-route v7
+
+Now this repository has been migrated to react-router v7 by releasing the new library [nest-react-router](https://www.npmjs.com/package/nest-react-router), <b style="color: red;">nestjs-remix will be maintained synchronously for a period of time and will be completely deprecated in the future</b>, you can continue to use nestjs-remix, but please note that there are some minor changes.
+
+### request flag
+
+| before        | after               |
+| ------------- | ------------------- |
+| handleByRemix | handleByReactRouter |
+| remixArgs     | reactRouterArgs     |
+| remixParams   | reactRouterParams   |
+
+### decorator
+
+| before    | after           |
+| --------- | --------------- |
+| RemixArgs | ReactRouterArgs |
 
 ## How to use
 
