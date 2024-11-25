@@ -1,7 +1,7 @@
 {
-  "name": "nestjs-remix",
+  "name": "nest-react-router",
   "version": "1.0.0",
-  "description": "Using remix in nestjs",
+  "description": "Using react-router in nestjs",
   "main": "index.js",
   "types": "index.d.ts",
   "private": true,
