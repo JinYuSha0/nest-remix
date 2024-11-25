@@ -1,13 +1,44 @@
 import { redirect, type LoaderFunctionArgs } from 'react-router';
-import { Body, Injectable, Query, Req } from '@nestjs/common';
+import {
+  Body,
+  Inject,
+  Injectable,
+  OnModuleInit,
+  Query,
+  Req,
+} from '@nestjs/common';
 import { Loader, Action, ReactRouterArgs, useServer } from 'nest-react-router';
 import { AppService } from '~/modules/app/app.service';
 import { LoginDto } from '~/modules/app/dto/login.dto';
 import { Test } from '~/common/test.decorator';
+import { Client, ClientProxy, Transport } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
-export class IndexBackend {
-  constructor(private readonly appService: AppService) {}
+export class IndexBackend implements OnModuleInit {
+  @Client({
+    transport: Transport.TCP,
+    options: { port: 3001 },
+  })
+  private microService: ClientProxy;
+  private enableMicroService: boolean;
+
+  constructor(private readonly appService: AppService) {
+    this.enableMicroService = process.env.ENABLE_MICRO_SERVICE === 'true';
+  }
+
+  async onModuleInit() {
+    if (this.enableMicroService) {
+      try {
+        await this.microService.connect();
+        console.log('Connected to microservice');
+      } catch (error) {
+        console.error('Failed to connect to microservice:', error);
+      }
+    } else {
+      console.log('Microservice is disabled.');
+    }
+  }
 
   @Loader()
   loader(
@@ -21,6 +52,11 @@ export class IndexBackend {
       loadData: new Promise<string>((res) => {
         setTimeout(() => res(`loaded success, now: ${Date.now()}`), 2000);
       }),
+      sumFromMicroService: this.enableMicroService
+        ? lastValueFrom<number>(
+            this.microService.send('sum', [1, 2, 3, 4, 5, 6, 8]),
+          )
+        : Promise.resolve('Try using script: yarn start:dev:microservice'),
     };
   }
 

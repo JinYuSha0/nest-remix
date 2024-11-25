@@ -25,7 +25,8 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({ formMethod }) => {
 };
 
 export default function Index() {
-  const { message, loadData } = useLoaderData<IndexBackend>() ?? {};
+  const { message, loadData, sumFromMicroService } =
+    useLoaderData<IndexBackend>() ?? {};
   const actionData = useActionData<IndexBackend>();
   const revalidator = useRevalidator();
   const [patch] = usePromiseSubmit<IndexBackend, 'patch'>();
@@ -62,6 +63,15 @@ export default function Index() {
         <h2>Defer data</h2>
         <Suspense fallback={<span>loading...</span>}>
           <Await resolve={loadData}>{(data) => <span>{data}</span>}</Await>
+        </Suspense>
+      </div>
+      <br />
+      <div>
+        <h2>MicroService data</h2>
+        <Suspense fallback={<span>loading...</span>}>
+          <Await resolve={sumFromMicroService}>
+            {(data) => <span>{data}</span>}
+          </Await>
         </Suspense>
       </div>
       <br />

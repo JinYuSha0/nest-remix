@@ -8,6 +8,8 @@
   "sideEffects": false,
   "scripts": {
     "start:dev": "cd example && npm run start:dev",
+    "start:microservice": "cd example-microservices && npm run start",
+    "start:dev:microservice": "cross-env ENABLE_MICRO_SERVICE=true npm-run-all --parallel start:microservice start:dev",
     "build": "npm-run-all --parallel build:router build:remix",
     "build:router": "nest build -p tsconfig.build.router.json",
     "build:remix": "nest build -p tsconfig.build.remix.json",
@@ -20,6 +22,7 @@
   },
   "workspaces": [
     "example",
+    "example-microservices",
     "packages/nest-react-router"
   ],
   "lint-staged": {
@@ -48,8 +51,10 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "dependencies": {
+    "@grpc/proto-loader": "^0.7.13",
     "@nestjs/common": "^10.4.8",
     "@nestjs/core": "^10.4.8",
+    "@nestjs/microservices": "^10.4.9",
     "@nestjs/serve-static": "^4.0.2",
     "@nestjs/testing": "^10.4.8",
     "@react-router/express": "^7.0.0",
@@ -66,6 +71,7 @@
     "@nestjs/cli": "^10.4.8",
     "@testing-library/react": "^15.0.7",
     "@types/node": "^20.12.12",
+    "cross-env": "^7.0.3",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
     "npm-run-all": "^4.1.5",

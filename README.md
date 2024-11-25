@@ -98,9 +98,11 @@ git clone https://github.com/JinYuSha0/nest-remix.git
 
 ## Running the example
 
-```
+```bash
 yarn install
-yarn run start:dev
+yarn start:dev
+# If you want to try to get data from microservice
+yarn start:dev:microservice
 ```
 
 ## Integrate
