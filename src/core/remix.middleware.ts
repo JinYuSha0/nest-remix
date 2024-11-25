@@ -1,6 +1,6 @@
 import type { ServerBuild } from "react-router";
 import type { GetLoadContextFunction } from "@react-router/express";
-import type { RemixConfig } from "index";
+import type { ReactRouterConfig } from "index";
 import type { ServerRoute } from "./remix.type";
 import { NestApplication } from "@nestjs/core";
 import { viteDevServer } from "./remix.core";
@@ -17,7 +17,7 @@ const serverBuildId = "virtual:react-router/server-build";
 
 export const remixMiddleware = async (
   app: NestApplication,
-  remixConfig: RemixConfig
+  remixConfig: ReactRouterConfig
 ) => {
   let build: ServerBuild;
   let routes: ServerRoute[];
@@ -25,7 +25,7 @@ export const remixMiddleware = async (
   const moduleRef = app.get(RemixService);
 
   if (!IS_DEV) {
-    build = (await dynamicImport(remixConfig.remixServerFile)) as ServerBuild;
+    build = (await dynamicImport(remixConfig.serverFile)) as ServerBuild;
     routes = createRoutes(build.routes);
   }
 
@@ -53,8 +53,8 @@ export const remixMiddleware = async (
             build.basename
           ))
       ) {
-        // Mark this request to be handled by remix
-        req.handleByRemix = true;
+        // Mark this request to be handled by react-router
+        req.handleByReactRouter = true;
         const getLoadContext: GetLoadContextFunction = (req) => {
           return {
             moduleRef,

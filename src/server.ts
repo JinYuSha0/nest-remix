@@ -1,9 +1,12 @@
-export { resolveRemixServices } from "./core/remix.resolve.services";
-export { Loader, Action, RemixArgs } from "./core/remix.decorator";
+export { resolveReactRouterServices } from "./core/remix.resolve.services";
+export { Loader, Action, ReactRouterArgs } from "./core/remix.decorator";
 export {
-  startNestRemix,
+  startNestReactRouter,
   useAction,
   useLoader,
   useServer,
 } from "./core/remix.core";
-export { type RemixError, RemixException } from "./core/remix.exceptions";
+export {
+  type ReactRouterError,
+  ReactRouterException,
+} from "./core/remix.exceptions";

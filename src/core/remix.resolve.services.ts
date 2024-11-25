@@ -34,6 +34,6 @@ function scanRemixServerDir(remixServerDir: string) {
   }));
 }
 
-export function resolveRemixServices(remixServerDir: string) {
+export function resolveReactRouterServices(remixServerDir: string) {
   return [RemixService, ...scanRemixServerDir(remixServerDir)];
 }

@@ -1,5 +1,5 @@
 import type { MetaFunction } from 'react-router';
-import type { RemixError } from 'nest-react-router/client';
+import type { ReactRouterError } from 'nest-react-router/client';
 import {
   Link,
   Links,
@@ -35,7 +35,7 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
-  const error = useRouteError() as RemixError;
+  const error = useRouteError() as ReactRouterError;
   return (
     <html>
       <head>

@@ -1,4 +1,4 @@
-export interface RemixError {
+export interface ReactRouterError {
   data: {
     message?: string;
     code?: number;
@@ -9,7 +9,7 @@ export interface RemixError {
   statusText: string;
 }
 
-export class RemixException extends Error {
+export class ReactRouterException extends Error {
   message: string;
 
   code: number;

@@ -1,18 +1,16 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "commonjs",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
-    "moduleResolution": "nodenext",
-    "target": "ESNext",
+    "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "esModuleInterop": true,
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -31,6 +29,7 @@
     "dist",
     "**/*spec.ts",
     "src/**/*.tsx",
+    "src/routes.ts",
     "*.ts",
     "*.mts"
   ]

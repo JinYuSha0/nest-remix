@@ -1,13 +1,13 @@
-# Welcome to nest-remix!
+# Welcome to nest-react-router!
 
-<center>A library that connects remix and nest, use remix as the view layer of nestjs</center>
+<center>A library that connects nest and react-router v7, use react-router as the view layer of nest</center>
 
 ## How to use
 
-### Nestjs side
+### Nest side
 
 ```typescript
-import { Loader, Action, useServer } from "nestjs-remix";
+import { Loader, Action, useServer } from "nest-react-router";
 
 @Injectable()
 export class IndexBackend {
@@ -34,11 +34,10 @@ export class IndexBackend {
   }
 }
 
-export const useIndexServer = (args: LoaderFunctionArgs) =>
-  useServer(IndexBackend)(args);
+export const useIndexServer = useServer(IndexBackend);
 ```
 
-### Remix side
+### react-router side
 
 ```typescript
 import {
@@ -48,14 +47,14 @@ import {
 import {
   useActionData,
   useLoaderData,
-} from 'nestjs-remix/client';
+} from 'nest-react-router/client';
 
-export const loader: LoaderFunction = (...args) => {
-  return useIndexServer(...args);
+export const loader: LoaderFunction = (args) => {
+  return useIndexServer(args);
 };
 
-export const action: ActionFunction = (...args) => {
-  return useIndexServer(...args);
+export const action: ActionFunction = (args) => {
+  return useIndexServer(args);
 };
 
 export default function Index() {
@@ -70,14 +69,13 @@ export default function Index() {
 ## Quick Start
 
 ```
-git clone https://github.com/JinYuSha0/nestjs-remix-template.git
+git clone https://github.com/JinYuSha0/nest-remix.git
 ```
 
 ## Running the example
 
 ```
 yarn install
-yarn build
 yarn run start:dev
 ```
 
@@ -86,38 +84,38 @@ yarn run start:dev
 ### 1.Install
 
 ```
-yarn add nestjs-remix
+yarn add nest-react-router
 ```
 
-### 2.Inject remix services
+### 2.Inject react-router services
 
 ```typescript
 import { Module } from "@nestjs/common";
 import { resolve } from "path";
-import { resolveRemixServices } from "nestjs-remix";
+import { resolveReactRouterServices } from "nest-react-router";
 
 @Module({
   imports: [],
   controllers: [AppController],
   providers: [
     AppService,
-    ...resolveRemixServices(resolve("dist/routes/server")),
+    ...resolveReactRouterServices(resolve("dist/routes/server")),
   ],
 })
 export class AppModule {}
 ```
 
-<b>Please note that the path is the path after build, not the source code path.so</b>
+<b>Please note that the path is the path after build, not the source code path</b>
 
-### 3. Start nestjs-remix
+### 3. Start nest-react-router
 
 ```typescript
-import { startNestRemix } from "nestjs-remix";
+import { startNestReactRouter } from "nest-react-router";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestApplication>(AppModule);
   // ...
-  await startNestRemix(app);
+  await startNestReactRouter(app);
   await app.listen(3000);
 }
 bootstrap();
@@ -127,14 +125,12 @@ bootstrap();
 
 ```json
 "scripts": {
-    "build": "concurrently \"npm run build:nest\" \"npm run build:remix\" -n \"NEST,REMIX\"",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "build": "concurrently \"npm run build:nest\" \"npm run build:react-router\" -n \"NEST,REACT-ROUTER\"",
     "start": "nest start",
     "start:dev": "cross-env NODE_ENV=development concurrently \"npm run start:dev:nest\" -n \"NEST\"",
     "start:prod": "cross-env NODE_ENV=production node dist/main",
     "build:nest": "rimraf dist && nest build -p tsconfig.nest.json",
-    "build:remix": "rimraf build && remix vite:build",
-    "start:dev:nest": "rimraf dist && nest start --watch -p tsconfig.nest.json",
-    "start:dev:remix": "rimraf build && concurrently \"remix watch\""
+    "build:react-router": "rimraf build && react-router build",
+    "start:dev:nest": "rimraf dist && nest start --watch -p tsconfig.nest.json"
   }
 ```

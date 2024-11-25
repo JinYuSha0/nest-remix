@@ -20,7 +20,7 @@ function createRouteParamDecorator(paramtype: number) {
     };
 }
 
-export const RemixArgs = createRouteParamDecorator(
+export const ReactRouterArgs = createRouteParamDecorator(
   RemixRouteParamtypes.REMIX_ARGS
 );
 

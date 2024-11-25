@@ -10,8 +10,8 @@ export class GlobalInterceptor<T> implements NestInterceptor {
         if (data == null) return;
         const ctx = context.switchToHttp();
         const request: Request = ctx.getRequest();
-        // Remix is not used GlobalResponse
-        if (request.handleByRemix) {
+        // react-router is not used GlobalResponse
+        if (request.handleByReactRouter) {
           return data;
         }
         return new GlobalResponse(data, 200, true).toPlainObject();

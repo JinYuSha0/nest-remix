@@ -7,7 +7,7 @@ import {
   HttpExceptionBodyMessage,
 } from '@nestjs/common';
 import { GlobalResponse } from './global.response';
-import { RemixException } from 'nest-react-router';
+import { ReactRouterException } from 'nest-react-router';
 
 const IS_PRODUCTION_ENV = process.env.NODE_ENV === 'production';
 const SYS_INTER_EXCEPTION_MSG = 'System internal exception';
@@ -37,14 +37,14 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       statusText = SYS_INTER_EXCEPTION_MSG;
     }
 
-    // Judge is handled by remix
-    if (request.handleByRemix) {
+    // Judge is handled by react-router
+    if (request.handleByReactRouter) {
       if (exception instanceof Response) {
         throw exception;
-      } else if (exception instanceof RemixException) {
+      } else if (exception instanceof ReactRouterException) {
         throw exception.toResponse();
       } else {
-        throw new RemixException(
+        throw new ReactRouterException(
           process.env.NODE_ENV === 'production'
             ? 'Internal Server Error'
             : exception.message,

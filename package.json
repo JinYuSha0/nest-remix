@@ -20,8 +20,7 @@
   },
   "workspaces": [
     "example",
-    "packages/nest-react-router",
-    "packages/nestjs-remix"
+    "packages/nest-react-router"
   ],
   "lint-staged": {
     "*": "npm run synchronous-version"
