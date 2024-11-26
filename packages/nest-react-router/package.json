@@ -1,6 +1,6 @@
 {
   "name": "nest-react-router",
-  "version": "1.0.2",
+  "version": "1.0.2-beta.1",
   "description": "Using react-router in nest",
   "main": "index.js",
   "types": "index.d.ts",
@@ -48,6 +48,7 @@
     "@react-router/node": "^7.0.0",
     "@react-router/serve": "^7.0.0",
     "express-serve-static-core": "^0.1.1",
+    "react-router": "^7.0.0",
     "reflect-metadata": "^0.2.2",
     "vite": "^5.4.10"
   }

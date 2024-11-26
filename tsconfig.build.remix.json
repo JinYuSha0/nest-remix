@@ -2,9 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./packages/nestjs-remix",
-    "module": "CommonJS",
+    "module": "ESNext",
     "declaration": true,
-    "moduleResolution": "node"
+    "moduleResolution": "bundler"
   },
   "include": ["src/**/*"],
   "exclude": [

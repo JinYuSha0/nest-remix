@@ -2,9 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./packages/nest-react-router",
-    "module": "CommonJS",
+    "module": "ESNext",
     "declaration": true,
-    "moduleResolution": "node"
+    "moduleResolution": "bundler"
   },
   "include": ["src/**/*"],
   "exclude": [
