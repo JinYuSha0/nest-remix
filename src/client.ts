@@ -12,19 +12,22 @@ type ExcludeResponse<T> = T extends Response ? never : T;
 
 export type AnyFunction = (...args: any) => any;
 
-export type RemixReturnType<T, P extends keyof T> = T[P] extends AnyFunction
+export type ReactRouterReturnType<
+  T,
+  P extends keyof T,
+> = T[P] extends AnyFunction
   ? ExcludeResponse<Awaited<ReturnType<T[P]>>>
   : never;
 
 export type LoaderReturnType<
   T extends { loader?: AnyFunction } & object,
   P extends keyof T = "loader",
-> = RemixReturnType<T, P>;
+> = ReactRouterReturnType<T, P>;
 
 export type ActionReturnType<
   T extends { action?: AnyFunction } & object,
   P extends keyof T = "action",
-> = RemixReturnType<T, P>;
+> = ReactRouterReturnType<T, P>;
 
 export const useLoaderData = <
   T extends { loader?: AnyFunction } & object,
