@@ -4,10 +4,11 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 
 export default [
+  // nest-react-router
   {
     input: path.resolve(__dirname, "src/index.ts"),
     output: {
-      file: path.resolve(__dirname, "packages/nest-react-router/server.cjs.js"),
+      file: path.resolve(__dirname, "packages/nest-react-router/server.js"),
       format: "cjs",
       sourcemap: true,
     },
@@ -15,9 +16,9 @@ export default [
     external: (id) => /node_modules/.test(id),
   },
   {
-    input: path.resolve(__dirname, "src/client/index.ts"),
+    input: path.resolve(__dirname, "src/index.ts"),
     output: {
-      file: path.resolve(__dirname, "packages/nest-react-router/client.esm.js"),
+      file: path.resolve(__dirname, "packages/nest-react-router/server.mjs"),
       format: "esm",
       sourcemap: true,
     },
@@ -25,9 +26,9 @@ export default [
     external: (id) => /node_modules/.test(id),
   },
   {
-    input: path.resolve(__dirname, "src/index.ts"),
+    input: path.resolve(__dirname, "src/client/index.ts"),
     output: {
-      file: path.resolve(__dirname, "packages/nestjs-remix/server.cjs.js"),
+      file: path.resolve(__dirname, "packages/nest-react-router/client.js"),
       format: "cjs",
       sourcemap: true,
     },
@@ -37,7 +38,48 @@ export default [
   {
     input: path.resolve(__dirname, "src/client/index.ts"),
     output: {
-      file: path.resolve(__dirname, "packages/nestjs-remix/client.esm.js"),
+      file: path.resolve(__dirname, "packages/nest-react-router/client.mjs"),
+      format: "esm",
+      sourcemap: true,
+    },
+    plugins: [resolve(), commonjs(), typescript()],
+    external: (id) => /node_modules/.test(id),
+  },
+  // nestjs-remix
+  {
+    input: path.resolve(__dirname, "src/index.ts"),
+    output: {
+      file: path.resolve(__dirname, "packages/nestjs-remix/server.js"),
+      format: "cjs",
+      sourcemap: true,
+    },
+    plugins: [resolve(), commonjs(), typescript()],
+    external: (id) => /node_modules/.test(id),
+  },
+  {
+    input: path.resolve(__dirname, "src/index.ts"),
+    output: {
+      file: path.resolve(__dirname, "packages/nestjs-remix/server.mjs"),
+      format: "esm",
+      sourcemap: true,
+    },
+    plugins: [resolve(), commonjs(), typescript()],
+    external: (id) => /node_modules/.test(id),
+  },
+  {
+    input: path.resolve(__dirname, "src/client/index.ts"),
+    output: {
+      file: path.resolve(__dirname, "packages/nestjs-remix/client.js"),
+      format: "cjs",
+      sourcemap: true,
+    },
+    plugins: [resolve(), commonjs(), typescript()],
+    external: (id) => /node_modules/.test(id),
+  },
+  {
+    input: path.resolve(__dirname, "src/client/index.ts"),
+    output: {
+      file: path.resolve(__dirname, "packages/nestjs-remix/client.mjs"),
       format: "esm",
       sourcemap: true,
     },
