@@ -10,7 +10,7 @@
 
 ## Migrated to react-route v7
 
-Now this repository has been migrated to react-router v7 by releasing the new library [nest-react-router](https://www.npmjs.com/package/nest-react-router), <b style="color: red;">nestjs-remix will be maintained synchronously for a period of time and will be completely deprecated in the future</b>, you can continue to use nestjs-remix, but please note that there are some minor changes.
+Now this repository has been migrated to react-router v7 by releasing the new library [nest-react-router](https://www.npmjs.com/package/nest-react-router), <b>nestjs-remix will be maintained synchronously for a period of time and will be completely deprecated in the future</b>, you can continue to use nestjs-remix, but please note that there are some minor changes.
 
 ### request flag
 
@@ -160,3 +160,36 @@ bootstrap();
     "start:dev:nest": "rimraf dist && nest start --watch -p tsconfig.nest.json"
   }
 ```
+
+## Troubleshooting
+
+<details>
+<summary>[vite] Error when evaluating SSR module /src/routes/server/xxx.server.ts: failed to import "nest-react-router"</summary>
+
+Modify <b>vite.config.mts</b>
+
+```js
+ssr: {
+    noExternal: process.env.NODE_ENV === 'development'
+      ? ['nest-react-router', /* ... */]  // add this
+      : [/* ... */],
+  },
+```
+</details>
+
+<br/>
+
+<details>
+<summary>useloaderdata must be used within a data router</summary>
+
+Modify <b>vite.config.mts</b>
+
+```js
+ssr: {
+    noExternal: process.env.NODE_ENV === 'development'
+      ? ['nest-react-router', /* ... */]  // add this
+      : [/* ... */],
+  },
+```
+</details>
+
