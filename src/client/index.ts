@@ -4,6 +4,7 @@ import {
 } from "react-router";
 export { usePromiseSubmit } from "./usePromiseSubmit";
 export { HydratedRouter } from "react-router/dom";
+export { ServerRouter } from "react-router";
 
 type ExcludeResponse<T> = T extends Response ? never : T;
 
