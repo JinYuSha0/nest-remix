@@ -1,9 +1,25 @@
 {
   "name": "nestjs-remix",
-  "version": "1.0.2-beta.1",
+  "version": "1.0.2-beta.3",
   "description": "Using remix in nestjs",
-  "main": "index.js",
+  "main": "server.cjs.js",
   "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./server.cjs.js",
+      "import": "./server.cjs.js"
+    },
+    "./server": {
+      "types": "./index.d.ts",
+      "require": "./server.cjs.js",
+      "import": "./server.cjs.js"
+    },
+    "./client": {
+      "types": "./client/index.d.ts",
+      "import": "./client.esm.js"
+    }
+  },
   "keywords": [
     "nestjs",
     "remix"

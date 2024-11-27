@@ -1,4 +1,4 @@
-import type { ActionReturnType, AnyFunction } from "../client";
+import type { ActionReturnType, AnyFunction } from "./index";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useActionData, useSubmit } from "react-router";
 import { deferred } from "./helper";
@@ -32,7 +32,10 @@ export function usePromiseSubmit<
       setLoading(true);
       nextCanActiveTs.current = Date.now() + delay;
       if (!(args[0] instanceof FormData)) {
-        args[0] = serialize(args[0]);
+        args[0] = serialize(args[0], {
+          indices: true,
+          noFilesWithArrayNotation: true,
+        });
       }
       submit.apply(null, args);
       return $deferred.current.promise;

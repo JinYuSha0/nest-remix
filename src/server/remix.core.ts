@@ -7,13 +7,13 @@ import type {
   ActionFunctionArgs,
 } from "react-router";
 import type { NestContainer } from "@nestjs/core/injector/container";
-import type { RemixLoadContext, ReactRouterConfig } from "index";
+import type { ReactRouterLoadContext, ReactRouterConfig } from "../index";
 import type { ViteDevServer } from "vite";
 import { ExternalContextCreator } from "@nestjs/core";
 import { RequestMethod } from "@nestjs/common/enums";
 import { IS_DEV, isConstructor } from "./remix.helper";
 import { remixMiddleware } from "./remix.middleware";
-import { defaultRemixConfig, ReactRouterException } from "index";
+import { defaultRemixConfig, ReactRouterException } from "../index";
 import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
 import { RemixRouteParamsFactory } from "./remix.route.params.factory";
 import bodyParser from "body-parser";
@@ -91,7 +91,8 @@ const useDecorator = (
     return useDecorator(descriptor, typeName ?? typeOrDescriptor.name);
   }
   return async (args: LoaderFunctionArgs | ActionFunctionArgs) => {
-    const { moduleRef, req, res, next } = args.context as RemixLoadContext;
+    const { moduleRef, req, res, next } =
+      args.context as ReactRouterLoadContext;
     req.reactRouterArgs = args;
     req.reactRouterParams = args.params;
     const providerName = getProviderName(typeName);

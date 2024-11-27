@@ -1,6 +1,6 @@
 import type { AppLoadContext, Params } from "react-router";
 import type { LoaderFunctionArgs, ActionFunctionArgs } from "react-router";
-import type { RemixService } from "core/remix.service";
+import type { RemixService } from "server/remix.service";
 import type { ServeStaticOptions } from "@nestjs/platform-express/interfaces/serve-static-options.interface";
 import type * as core from "express-serve-static-core";
 import path from "path";
@@ -23,7 +23,7 @@ export {
   ReactRouterException as RemixException,
 } from "./server";
 
-export interface RemixLoadContext extends AppLoadContext {
+export interface ReactRouterLoadContext extends AppLoadContext {
   moduleKey: string;
   moduleRef: RemixService;
   req: Request;
