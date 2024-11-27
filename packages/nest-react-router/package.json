@@ -1,72 +1,30 @@
 {
   "name": "nest-react-router",
-  "version": "1.0.2-beta.4",
+  "version": "1.0.2-beta.5",
   "description": "Using react-router in nest",
-  "main": "server.cjs.js",
+  "main": "server.js",
   "types": "index.d.ts",
   "exports": {
     ".": {
-      "node": {
-        "types": "./index.d.ts",
-        "development": {
-          "module-sync": "./server.mjs",
-          "default": "./server.js"
-        },
-        "module-sync": "./server.mjs",
-        "default": "./server.js"
-      },
-      "import": {
-        "types": "./index.d.ts",
-        "development": "./server.mjs",
-        "default": "./server.mjs"
-      },
-      "default": {
-        "types": "./index.d.ts",
-        "development": "./server.js",
-        "default": "./server.js"
-      }
+      "types": "./index.d.ts",
+      "require": "./server.js",
+      "import": "./server.js"
     },
     "./server": {
-      "node": {
-        "types": "./index.d.ts",
-        "development": {
-          "module-sync": "./server.mjs",
-          "default": "./server.js"
-        },
-        "module-sync": "./server.mjs",
-        "default": "./server.js"
-      },
-      "import": {
-        "types": "./index.d.ts",
-        "development": "./server.mjs",
-        "default": "./server.mjs"
-      },
-      "default": {
-        "types": "./index.d.ts",
-        "development": "./server.js",
-        "default": "./server.js"
-      }
+      "types": "./index.d.ts",
+      "require": "./server.js",
+      "import": "./server.js"
     },
     "./client": {
-      "node": {
-        "types": "./client/index.d.ts",
-        "development": {
-          "module-sync": "./client.mjs",
-          "default": "./client.js"
-        },
-        "module-sync": "./client.mjs",
-        "default": "./client.js"
-      },
-      "import": {
-        "types": "./client/index.d.ts",
-        "development": "./client.mjs",
-        "default": "./client.mjs"
-      },
-      "default": {
-        "types": "./client/index.d.ts",
-        "development": "./client.js",
-        "default": "./client.js"
-      }
+      "types": "./client/index.d.ts",
+      "import": "./client.mjs"
+    }
+  },
+  "imports": {
+    "#react-router": {
+      "node": "react-router",
+      "development": "./node_modules/react-router/dist/development/index.js",
+      "default": "./node_modules/react-router/dist/production/index.js"
     }
   },
   "keywords": [

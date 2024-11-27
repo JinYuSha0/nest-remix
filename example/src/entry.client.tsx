@@ -1,4 +1,4 @@
-import { HydratedRouter } from 'react-router/dom';
+import { HydratedRouter } from 'nest-react-router/client';
 import { startTransition, useEffect, StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 
