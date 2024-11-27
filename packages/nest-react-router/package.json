@@ -1,23 +1,72 @@
 {
   "name": "nest-react-router",
-  "version": "1.0.2-beta.6",
+  "version": "1.0.2-beta.7",
   "description": "Using react-router in nest",
   "main": "server.js",
   "types": "index.d.ts",
   "exports": {
     ".": {
-      "types": "./index.d.ts",
-      "require": "./server.js",
-      "import": "./server.js"
+      "node": {
+        "types": "./index.d.ts",
+        "development": {
+          "module-sync": "./server.mjs",
+          "default": "./server.mjs"
+        },
+        "module-sync": "./server.mjs",
+        "default": "./server.js"
+      },
+      "import": {
+        "types": "./index.d.ts",
+        "development": "./server.mjs",
+        "default": "./server.mjs"
+      },
+      "default": {
+        "types": "./index.d.ts",
+        "development": "./server.js",
+        "default": "./server.js"
+      }
     },
     "./server": {
-      "types": "./index.d.ts",
-      "require": "./server.js",
-      "import": "./server.js"
+      "node": {
+        "types": "./index.d.ts",
+        "development": {
+          "module-sync": "./server.mjs",
+          "default": "./server.mjs"
+        },
+        "module-sync": "./server.mjs",
+        "default": "./server.js"
+      },
+      "import": {
+        "types": "./index.d.ts",
+        "development": "./server.mjs",
+        "default": "./server.mjs"
+      },
+      "default": {
+        "types": "./index.d.ts",
+        "development": "./server.js",
+        "default": "./server.js"
+      }
     },
     "./client": {
-      "types": "./client/index.d.ts",
-      "import": "./client.mjs"
+      "node": {
+        "types": "./client/index.d.ts",
+        "development": {
+          "module-sync": "./client.mjs",
+          "default": "./client.mjs"
+        },
+        "module-sync": "./client.mjs",
+        "default": "./client.js"
+      },
+      "import": {
+        "types": "./client/index.d.ts",
+        "development": "./client.mjs",
+        "default": "./client.mjs"
+      },
+      "default": {
+        "types": "./client/index.d.ts",
+        "development": "./client.mjs",
+        "default": "./client.js"
+      }
     }
   },
   "imports": {
