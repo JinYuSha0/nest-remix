@@ -1,5 +1,5 @@
 import { RouteParamtypes } from "@nestjs/common/enums/route-paramtypes.enum";
-import { RemixRouteParamtypes } from "./remix.constant";
+import { ReactRouterParamtypes } from "./remix.constant";
 
 export class RemixRouteParamsFactory {
   public exchangeKeyForValue<
@@ -39,8 +39,8 @@ export class RemixRouteParamsFactory {
         return req.files;
       case RouteParamtypes.IP:
         return req.ip;
-      case RemixRouteParamtypes.REMIX_ARGS:
-        return req.remixArgs;
+      case ReactRouterParamtypes.REACT_ROUTER_ARGS:
+        return req.reactRouterArgs;
       default:
         return null;
     }

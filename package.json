@@ -1,14 +1,14 @@
 {
   "name": "nest-react-router",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Using react-router in nestjs",
   "main": "index.js",
   "types": "index.d.ts",
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "start:dev": "cd example && npm run start:dev",
-    "start:microservice": "cd example-microservices && npm run start",
+    "start:dev": "cd example/main && npm run start:dev",
+    "start:microservice": "cd example/microservices && npm run start",
     "start:dev:microservice": "cross-env ENABLE_MICRO_SERVICE=true npm-run-all --parallel start:microservice start:dev",
     "build": "rollup -c --bundleConfigAsCjs",
     "publish": "npm-run-all --parallel publish:router publish:remix",
@@ -19,8 +19,8 @@
     "synchronous-version": "node ./synchronous-version.js"
   },
   "workspaces": [
-    "example",
-    "example-microservices",
+    "example/main",
+    "example/microservices",
     "packages/nest-react-router"
   ],
   "lint-staged": {
@@ -71,6 +71,7 @@
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@testing-library/react": "^15.0.7",
     "@types/node": "^20.12.12",
+    "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
@@ -78,7 +79,7 @@
     "rollup": "^4.27.4",
     "rollup-plugin-typescript2": "^0.36.0",
     "typescript": "^5.2.2",
-    "vite": "^5.4.11"
+    "vite": "^6.0.1"
   },
   "peerDependencies": {
     "@nestjs/common": "^10.3.8",

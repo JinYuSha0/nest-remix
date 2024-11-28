@@ -3,7 +3,7 @@ import { assignMetadata } from "@nestjs/common";
 import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
 import { RemixProperty, setRemixTypeDescriptor } from "./remix.core";
 import { isConstructor } from "./remix.helper";
-import { RemixRouteParamtypes } from "./remix.constant";
+import { ReactRouterParamtypes } from "./remix.constant";
 
 function createRouteParamDecorator(paramtype: number) {
   return (data?: ParamData): ParameterDecorator =>
@@ -21,7 +21,7 @@ function createRouteParamDecorator(paramtype: number) {
 }
 
 export const ReactRouterArgs = createRouteParamDecorator(
-  RemixRouteParamtypes.REMIX_ARGS
+  ReactRouterParamtypes.REACT_ROUTER_ARGS
 );
 
 function Decorator(...properties: RemixProperty[]) {

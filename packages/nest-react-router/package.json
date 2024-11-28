@@ -1,6 +1,6 @@
 {
   "name": "nest-react-router",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Using react-router in nest",
   "main": "server.js",
   "types": "index.d.ts",

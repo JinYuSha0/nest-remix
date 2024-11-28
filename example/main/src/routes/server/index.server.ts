@@ -1,12 +1,5 @@
 import { redirect, type LoaderFunctionArgs } from 'react-router';
-import {
-  Body,
-  Inject,
-  Injectable,
-  OnModuleInit,
-  Query,
-  Req,
-} from '@nestjs/common';
+import { Body, Injectable, OnModuleInit, Query, Req } from '@nestjs/common';
 import { Loader, Action, ReactRouterArgs, useServer } from 'nest-react-router';
 import { AppService } from '~/modules/app/app.service';
 import { LoginDto } from '~/modules/app/dto/login.dto';
