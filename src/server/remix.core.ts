@@ -144,7 +144,7 @@ export const startNestReactRouter = async (
 
   // remix middleware
   app.use(
-    bodyParser.urlencoded({ extended: false }),
+    bodyParser.urlencoded({ extended: true }),
     await remixMiddleware(app, remixConfig)
   );
 
